@@ -10,6 +10,8 @@ if [ -d "/code/proxy" ]; then
 
     # add environment variable overrides
     echo 'export HOME=/app' >> /app/.profile.d/app-env.sh
+    echo 'export REMOTE=1' >> /app/.profile.d/app-env.sh
+    echo 'export CMSAPI_HOST=172.17.42.1:50505' >> /app/.profile.d/app-env.sh
     echo 'export CMSEXT_HOST=172.17.42.1:11111' >> /app/.profile.d/app-env.sh
     echo 'export CMSINT_HOST=172.17.42.1:10101' >> /app/.profile.d/app-env.sh
     echo 'export GO_DEPLOYMENT_BASE_URL=127.0.0.1' >> /app/.profile.d/app-env.sh
@@ -20,5 +22,7 @@ if [ -d "/code/proxy" ]; then
     # necessary file
     cp /app/mime.types /code/proxy/mime.types
 
+else
+    echo "WARNING: /code/proxy was not available for configuration"
 fi
 

@@ -58,6 +58,7 @@ After this, the getting-started instructions should be continued in the CMS read
 
 After pulling the latest git changes, run the following to bring up the containers using the latest configuration:
 
+    scripts/setup/generate-host-vm-vagrant-config.sh
     scripts/vagrant-reload-host-vm.sh
     scripts/setup-containers.sh
 

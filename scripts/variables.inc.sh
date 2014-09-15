@@ -38,13 +38,18 @@ cd $_script_path/../
     # export SSH_PRIVATE_KEY=~/.ssh/id_rsa
     # export SSH_PUBLIC_KEY=~/.ssh/id_rsa.pub
 
-# To use local source-code, set the following environment variable (relative path to the parent repo codebase):
+# Only relevant and correctly set for scripts in the setup directory, thus we only set it when run from there, avoiding confusion
+if [ "$(basename $script_path)" == "setup" ]; then
 
-    export LOCAL_SOURCE_CODE_RELATIVE="../../../"
+    # To use local source-code, set the following environment variable (relative path to the parent repo codebase):
 
-# Find the absolute path of the cms codebase
+        export LOCAL_SOURCE_CODE_RELATIVE="../../../../"
 
-    export LOCAL_SOURCE_CODE=$(cd "$LOCAL_SOURCE_CODE_RELATIVE";pwd)
+    # Find the absolute path of the cms codebase
+
+        export LOCAL_SOURCE_CODE=$(cd "$LOCAL_SOURCE_CODE_RELATIVE";pwd)
+
+fi
 
 # Restore working directory and exit
 cd $_pwd
