@@ -7,19 +7,12 @@ _script_path=`dirname $0`
 # work in parent directory
 cd $_script_path/../
 
-# Use the following docker image tags (for version-pinning)
+# Use the following docker images - include tags for version-pinning
 
-    export APP=feature_cms-1023-friends-base-url-cms-6c65599-clean-db
-    export PROXY_APP=feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db
-
-# Some general configuration variables are necessary for the configurations before provisioning the instances:
-
-    # the port that the cms will be accessible on in the browser, ie http://localhost:11111
-    export WEB_PORT="11111"
-    # the port that the db will be accessible on by the web instance and locally
-    export DB_PORT="13306"
-    # the port that the proxy will be accessible on in the browser, ie http://localhost:15555
-    export PROXY_PORT="12121"
+    export DB_DOCKER_IMAGE=mariadb/local
+    export LEMP_DOCKER_IMAGE=gapminder/cms:feature_cms-1023-friends-base-url-cms-6c65599-clean-db
+    export PROXY_DOCKER_IMAGE=gapminder/cms:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db
+    export MAILCATCHER_DOCKER_IMAGE=nisenabe/mailcatcher
 
 # Choose a provider depending on where to provision the docker host:
 

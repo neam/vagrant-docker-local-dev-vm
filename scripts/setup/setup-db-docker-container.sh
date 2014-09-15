@@ -18,7 +18,7 @@ source $script_path/../variables.inc.sh
 # Create and prepare the database container image:
 
     ../../vendor/docker-md-plugin/install
-    ../../vendor/docker-md-plugin/commands mariadb:create $APP
+    ../../vendor/docker-md-plugin/commands mariadb:create local
     # remove the container (keeping the image) since we want docker to manage the container
     docker ps | grep $(cat "./.mariadb/port_$APP") | awk '{ print $1 }' | xargs docker rm -f
 

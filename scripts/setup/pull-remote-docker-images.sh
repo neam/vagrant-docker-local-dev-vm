@@ -17,15 +17,15 @@ source $script_path/../variables.inc.sh
 
 # Login to the docker registry and fetch the latest CMS base image (Can not be run by vagrant because of https://github.com/mitchellh/vagrant/issues/4042):
 
-    docker pull gapminder/cms:$APP
+    docker pull $LEMP_DOCKER_IMAGE
 
 # Fetch the latest proxy docker image
 
-    docker pull gapminder/proxy:$PROXY_APP
+    docker pull $PROXY_DOCKER_IMAGE
 
 # Fetch the latest mailcatcher docker image
 
-    docker pull nisenabe/mailcatcher
+    docker pull $MAILCATCHER_DOCKER_IMAGE
 
 # Restore working directory and exit
 cd $pwd
