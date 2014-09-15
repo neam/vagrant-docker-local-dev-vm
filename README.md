@@ -119,6 +119,7 @@ Tag and push cms docker app:
     export CONTAINER_ID=`docker ps | grep dokku/${APP}:latest | awk '{print $1}'`
 
     docker commit $CONTAINER_ID gapminder/cms:${APP}
+    # todo - strip away existing config since it contains secrets
     docker push gapminder/cms
 
 Tag and push cms docker proxy:
