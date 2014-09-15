@@ -49,7 +49,7 @@ Now, run the following scripts:
 
 Bring up and provision the docker containers for Gapminder CMS:
 
-    scripts/start-cms-containers.sh
+    scripts/start-containers.sh
 
 Note: Currently the above command seems to fail due to a vagrant bug (`padding error, need 3037648479 block 16`), but it is most likely a false alarm, the containers should be up and running. Re-run the script if this happens (to be sure).
 
@@ -61,13 +61,10 @@ After this, the getting-started instructions should be continued in the CMS read
 
 ## Update to the latest git changes
 
-After pulling the latest git changes, run the local set-up routine above once again, but *instead* of running `start-cms-containers.sh`, run the following:
+After pulling the latest git changes, run the local set-up routine above once again, but *instead* of running `start-containers.sh`, run the following:
 
     scripts/vagrant-reload-host-vm.sh
-    scripts/vagrant-reload-web-container.sh
-    scripts/vagrant-reload-db-container.sh
-    scripts/vagrant-reload-proxy-container.sh
-    scripts/vagrant-reload-mailcatcher-container.sh
+    scripts/reload-containers.sh
 
 ## Useful commands
 
