@@ -100,29 +100,29 @@ If you do any changes to the vagrant file docker provisioning config or the host
 
 If you run into "The container started either never left the "stopped" state or ..", try deleting the container and run `vagrant up` again.
 
-# Updating the docker base images
+# Updating the docker base images for LEMP and PROXY
 
 ## On dokku host
 
 Set the docker images to base the update on (replace with the appropriate deployed app names):
 
-    export APP=feature_cms-1023-friends-base-url-cms-abc1234-clean-db
+    export LEMP_APP=feature_cms-1023-friends-base-url-cms-abc1234-clean-db
     export PROXY_APP=feature_cms-1023-friends-base-url-proxy-abc1234-clean-db
 
 Make sure the containers are running on the current dokku host:
 
-    docker ps | grep ${APP}
+    docker ps | grep ${LEMP_APP}
     docker ps | grep ${PROXY_APP}
 
-Tag and push cms docker app:
+Tag and push cms docker lemp app:
 
-    export CONTAINER_ID=`docker ps | grep dokku/${APP}:latest | awk '{print $1}'`
+    export CONTAINER_ID=`docker ps | grep dokku/${LEMP_APP}:latest | awk '{print $1}'`
 
-    docker commit $CONTAINER_ID gapminder/cms:${APP}
+    docker commit $CONTAINER_ID gapminder/cms:${LEMP_APP}
     # todo - strip away existing config since it contains secrets
     docker push gapminder/cms
 
-Tag and push cms docker proxy:
+Tag and push cms docker proxy app:
 
     export PROXY_CONTAINER_ID=`docker ps | grep dokku/${PROXY_APP}:latest | awk '{print $1}'`
 
