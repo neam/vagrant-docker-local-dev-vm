@@ -34,9 +34,11 @@ source $script_path/../variables.inc.sh
     erb ../../Vagrantfile.erb > Vagrantfile
     erb ../../provision.sh.erb > provision.sh
     erb ../../web-start.sh.erb > web-start.sh
-    erb ../../web-provision.sh.erb > web-provision.sh
+    erb ../../api-config.sh.erb > api-config.sh
+    erb ../../external-yii-frontend-config.sh.erb > external-yii-frontend-config.sh
+    erb ../../internal-yii-frontend-config.sh.erb > internal-yii-frontend-config.sh
     erb ../../proxy-start.sh.erb > proxy-start.sh
-    erb ../../proxy-provision.sh.erb > proxy-provision.sh
+    erb ../../proxy-config.sh.erb > proxy-config.sh
 
 # Restore working directory and exit
 cd $pwd

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -x
+
+# enable extended globbing
+shopt -s extglob
+
+# run local code if available
+if [ -d "/code/cms/internal-yii-frontend" ]; then
+
+    # change nginx app root
+    sed -i 's/root \/app/root \/code\/cms\/internal-yii-frontend/' /app/conf/site.conf.erb
+
+    # tell php opcache to re-cache files after they changed (otherwise changes to php-files while container is running are ignored)
+    sed -i 's/opcache\.validate_timestamps=off/opcache\.validate_timestamps=on/' /app/vendor/php/etc/php.ini
+
+    # reset environment variables to only contain the following
+    echo 'export HOME=/app' > /app/.profile.d/app-env.sh
+    echo 'export ENVBOOTSTRAP_STRATEGY=local' >> /app/.profile.d/app-env.sh
+    echo 'export CMS_BASE_URL=127.0.0.1:12121/internal' >> /app/.profile.d/app-env.sh
+    echo 'export CMS_HOST=127.0.0.1:10101' >> /app/.profile.d/app-env.sh
+    echo 'export LOCAL_SERVICES_IP=172.17.42.1' >> /app/.profile.d/app-env.sh
+    echo 'export SELENIUM_HOST=$LOCAL_SERVICES_IP' >> /app/.profile.d/app-env.sh
+    echo 'export SELENIUM_PORT=14444' >> /app/.profile.d/app-env.sh
+
+    # get root user connecting via ssh to a productive prompt immediately
+    echo 'cd /code/cms/' >> /root/.profile # step in to the root of the cms codebase
+    echo 'for file in /app/.profile.d/*; do source $file; done' >> /root/.profile # make all environment variables available
+
+fi
+

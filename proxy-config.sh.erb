@@ -10,7 +10,8 @@ if [ -d "/code/proxy" ]; then
 
     # add environment variable overrides
     echo 'export HOME=/app' >> /app/.profile.d/app-env.sh
-    echo 'export CMS_HOST=172.17.42.1:<%= ENV['WEB_PORT'] %>' >> /app/.profile.d/app-env.sh
+    echo 'export CMSEXT_HOST=172.17.42.1:11111' >> /app/.profile.d/app-env.sh
+    echo 'export CMSINT_HOST=172.17.42.1:10101' >> /app/.profile.d/app-env.sh
     echo 'export GO_DEPLOYMENT_BASE_URL=127.0.0.1' >> /app/.profile.d/app-env.sh
     echo 'export VIZABI_DEPLOYMENT_BASE_URL=127.0.0.1' >> /app/.profile.d/app-env.sh
     echo 'export PUBLIC_FILES_S3_HOST=127.0.0.1' >> /app/.profile.d/app-env.sh

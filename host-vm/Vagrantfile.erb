@@ -67,23 +67,29 @@ exit 0' > /etc/network/if-post-down.d/iptablessave
     # configure docker port so that we can set DOCKER_HOST to tcp://localhost:4243 locally on osx and access docker commands
     config.vm.network :forwarded_port, guest: 4243, host: 4243
 
-    # port forward necessary for http://localhost:$WEB_PORT to work on local machine
-    config.vm.network :forwarded_port, guest: <%= ENV['WEB_PORT'] %>, host: <%= ENV['WEB_PORT'] %>
+    # port forward necessary for http://localhost:$WEB_PORTS to work on local machine
+    config.vm.network :forwarded_port, guest: 50505, host: 50505
+    config.vm.network :forwarded_port, guest: 11111, host: 11111
+    config.vm.network :forwarded_port, guest: 10101, host: 10101
 
-    # port forward necessary to be able to SSH directly into docker web container (for easier more direct ssh connections as compared to proxying through the host vm)
+    # port forward necessary to be able to SSH directly into docker web containers (for easier more direct ssh connections as compared to proxying through the host vm)
+    config.vm.network :forwarded_port, guest: 2201, host: 2201
     config.vm.network :forwarded_port, guest: 2202, host: 2202
-
-    # port forward necessary to be able to connect to xdebug debugger directly into docker web container
-    config.vm.network :forwarded_port, guest: 9000, host: 9000
-
-    # port forward necessary to be able to connect to the mysql server against 127.0.0.1:$DB_PORT locally
-    config.vm.network :forwarded_port, guest: <%= ENV['DB_PORT'] %>, host: <%= ENV['DB_PORT'] %>
-
-    # port forward necessary to be able to SSH directly into docker proxy container (for easier more direct ssh connections as compared to proxying through the host vm)
     config.vm.network :forwarded_port, guest: 2203, host: 2203
 
+    # port forward necessary to be able to connect to xdebug debugger directly into docker web containers
+    config.vm.network :forwarded_port, guest: 9001, host: 9001
+    config.vm.network :forwarded_port, guest: 9002, host: 9002
+    config.vm.network :forwarded_port, guest: 9003, host: 9003
+
+    # port forward necessary to be able to connect to the mysql server against 127.0.0.1:$DB_PORT locally
+    config.vm.network :forwarded_port, guest: 13306, host: 13306
+
+    # port forward necessary to be able to SSH directly into docker proxy container (for easier more direct ssh connections as compared to proxying through the host vm)
+    config.vm.network :forwarded_port, guest: 2200, host: 2200
+
     # port forward necessary for http://localhost:$PROXY_PORT to work on local machine
-    config.vm.network :forwarded_port, guest: <%= ENV['PROXY_PORT'] %>, host: <%= ENV['PROXY_PORT'] %>
+    config.vm.network :forwarded_port, guest: 12121, host: 12121
 
     # port forward for mailcatcher ports
     config.vm.network :forwarded_port, guest: 1025, host: 1025

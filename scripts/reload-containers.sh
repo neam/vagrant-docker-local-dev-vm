@@ -14,6 +14,9 @@ set -x
 # Reload containers by halting then starting (vagrant reload does not work reliably)
 
     $script_path/halt-containers.sh
+    $script_path/setup/generate-host-vm-vagrant-config.sh
+    $script_path/setup/setup-db-docker-container.sh
+    $script_path/setup/generate-cms-vagrant-config.sh
     $script_path/start-containers.sh
 
 # Restore working directory and exit

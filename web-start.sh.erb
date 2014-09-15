@@ -2,15 +2,18 @@
 
 set -x
 
+CONTAINER=$1
+SSH_PORT=$2
+
 cd /vagrant
 
 # install and start ssh server in background (enables vagrant ssh)
 
-/bin/bash docker-container-ssh.sh 2202
+/bin/bash docker-container-ssh.sh $SSH_PORT
 
 # cms web-container specific provisioning
 
-/bin/bash web-provision.sh
+/bin/bash $CONTAINER-config.sh
 
 # provisioning done, start cms app
 

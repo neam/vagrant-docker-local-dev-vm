@@ -6,10 +6,10 @@ set -x
 shopt -s extglob
 
 # run local code if available
-if [ -d "/code/cms" ]; then
+if [ -d "/code/cms/external-yii-frontend" ]; then
 
     # change nginx app root
-    sed -i 's/root \/app/root \/code\/cms/' /app/conf/site.conf.erb
+    sed -i 's/root \/app/root \/code\/cms\/external-yii-frontend/' /app/conf/site.conf.erb
 
     # tell php opcache to re-cache files after they changed (otherwise changes to php-files while container is running are ignored)
     sed -i 's/opcache\.validate_timestamps=off/opcache\.validate_timestamps=on/' /app/vendor/php/etc/php.ini

@@ -23,6 +23,9 @@ set -x
 
     vagrant halt db
     vagrant halt web
+    vagrant halt api
+    vagrant halt external-yii-frontend
+    vagrant halt internal-yii-frontend
     vagrant halt mailcatcher
     vagrant halt proxy
 
