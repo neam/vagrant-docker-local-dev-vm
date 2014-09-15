@@ -1,0 +1,3 @@
+[submodule "vendor/docker-md-plugin"]
+	path = vendor/docker-md-plugin
+	url = git@github.com:neam/docker-md-plugin.git
