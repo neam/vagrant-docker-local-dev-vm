@@ -38,7 +38,7 @@ Login to the docker registry (unless you have already done so previously):
 
 Pull the latest CMS base image (Can not be run by vagrant because it requires login - [https://github.com/mitchellh/vagrant/issues/4042]()):
 
-    scripts/setup/pull-cms-docker-images.sh
+    scripts/setup/pull-remote-docker-images.sh
 
 Bring up and provision the docker containers:
 
