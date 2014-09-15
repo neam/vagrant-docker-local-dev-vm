@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         db.vm.provider :docker do |provider|
             provider.image = "mariadb/<%= ENV['DB_APP'] %>"
-            provider.ports = ["13306:3306"]
+            provider.ports = ["<%= ENV['DB_PORT'] %>:3306"]
             provider.cmd = ["/usr/bin/start_mariadb.sh", "<%= ENV['DB_PASS'] %>"]
             provider.volumes = ["<%= ENV['DB_VOLUME'] %>:/opt/mysql"]
             #provider.has_ssh = true
