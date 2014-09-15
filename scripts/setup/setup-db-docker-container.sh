@@ -9,11 +9,11 @@ set -o errexit
 # set common variables
 pwd=`pwd`
 script_path=`dirname $0`
-source $script_path/variables.inc.sh
+source $script_path/../variables.inc.sh
 
 # Work in local build directory
 
-    cd $script_path/../build/$NAME
+    cd $script_path/../../build/$NAME
 
 # Create and prepare the database container image:
 

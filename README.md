@@ -29,8 +29,8 @@ Optionally, set environment variables (see "Configuration" below) to customize t
 
 Run the following scripts:
 
-    scripts/generate-host-vm-vagrant-config.sh
-    scripts/install-docker-in-host-vm.sh
+    scripts/setup/generate-host-vm-vagrant-config.sh
+    scripts/setup/install-docker-in-host-vm.sh
 
 Login to the docker registry (unless you have already done so previously):
 
@@ -40,12 +40,12 @@ Login to the docker registry (unless you have already done so previously):
 
 Pull the latest CMS base image (Can not be run by vagrant because it requires login - [https://github.com/mitchellh/vagrant/issues/4042]()):
 
-    scripts/pull-cms-docker-images.sh
+    scripts/setup/pull-cms-docker-images.sh
 
 Now, run the following scripts:
 
-    scripts/setup-db-docker-container.sh
-    scripts/generate-cms-vagrant-config.sh
+    scripts/setup/setup-db-docker-container.sh
+    scripts/setup/generate-cms-vagrant-config.sh
 
 Bring up and provision the docker containers for Gapminder CMS:
 
