@@ -29,8 +29,8 @@ source $script_path/../variables.inc.sh
 
 # Generate the local vagrant config for the docker containers:
 
-    export DB_PASS=$(cat "./.mariadb/pwd_$APP")
-    export DB_VOLUME=$(cat "./.mariadb/volume_$APP")
+    export DB_PASS=$(cat "./.mariadb/pwd_$DB_APP")
+    export DB_VOLUME=$(cat "./.mariadb/volume_$DB_APP")
     erb ../../Vagrantfile.erb > Vagrantfile
     erb ../../provision.sh.erb > provision.sh
     erb ../../web-start.sh.erb > web-start.sh

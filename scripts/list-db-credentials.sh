@@ -19,11 +19,11 @@ source $script_path/variables.inc.sh
 
     echo "== Use the following database credentials in order to connect from inside the container =="
 
-    ../../vendor/docker-md-plugin/commands mariadb:info $APP
+    ../../vendor/docker-md-plugin/commands mariadb:info $DB_APP
 
     echo "== Use the following database credentials in order to connect from your work station =="
 
-    ../../vendor/docker-md-plugin/commands mariadb:info $APP | sed 's/172.17.42.1/127.0.0.1/'
+    ../../vendor/docker-md-plugin/commands mariadb:info $DB_APP | sed 's/172.17.42.1/127.0.0.1/'
 
 # Restore working directory and exit
 cd $pwd

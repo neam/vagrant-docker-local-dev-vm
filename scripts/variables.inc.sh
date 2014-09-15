@@ -14,6 +14,10 @@ cd $_script_path/../
     export PROXY_DOCKER_IMAGE=gapminder/cms:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db
     export MAILCATCHER_DOCKER_IMAGE=nisenabe/mailcatcher
 
+# Used by docker-md-plugin to set-up a db container for our app
+
+    export DB_APP=cms
+
 # Choose a provider depending on where to provision the docker host:
 
     export HOST_VM_PROVIDER=virtualbox
