@@ -25,8 +25,6 @@ Add the following to `~/.bash_profile`, `~/.profile` or similar:
 
 Open up a terminal window and cd into the same directory as this readme file.
 
-Optionally, set environment variables (see "Configuration" below) to customize the local set-up.
-
 Run the following scripts:
 
     scripts/setup/generate-host-vm-vagrant-config.sh
