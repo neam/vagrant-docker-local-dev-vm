@@ -90,15 +90,14 @@ To follow the logs in a specific container, run one of the following:
 
 To ssh into the host vm, cd into `host-vm` and run `vagrant ssh`.
 
-## Notes about changing the vagrant config
+## Troubleshooting
 
-Any changes to the vagrant files should be done by changing the *.erb-files in the current directory. Then, re-generate the local vagrant config as per above.
+If you can't connect to the database and cant figure out why, try starting off from scratch by running the following:
 
-If you change WEB_PORT, you need to cd into `host-vm` and run `vagrant reload` for the port forwards to be updated.
+    rm -r build/cms-virtualbox/.mariadb
+    scripts/setup-containers.sh
 
-If you do any changes to the vagrant file docker provisioning config or the host vm config, you'll need to run `docker rm -f CONTAINER_ID` before vagrant reload/up. CONTAINER_ID is the first column in the output from `docker ps -a`. A quick way to remove all docker containers is to run `docker ps -aq | xargs docker rm -f`.
-
-If you run into "The container started either never left the "stopped" state or ..", try deleting the container and run `vagrant up` again.
+If you simply can't connect to any port locally, vagrant or virtualbox may have run inte som networking issue. Either restart or remove the virtual machine from virtualbox and run the setup routine again.
 
 # Updating the docker base images for LEMP and PROXY
 
