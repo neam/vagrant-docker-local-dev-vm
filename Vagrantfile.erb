@@ -47,8 +47,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # since the image doesn't have a vagrant user
         web.ssh.username = 'root'
 
-        # docker-container-ssh.sh starts the ssh server on port 2202 to avoid conflicts and confusion with ports 22 and 2222
-        web.ssh.port = 2202
+        # docker-container-ssh.sh starts the ssh server on port 2201 to avoid conflicts and confusion with ports 22 and 2222
+        web.ssh.port = 2201
 
         # cms web-instance provisioning is not done through vagrant's ssh provisioning mechanism since
         # the docker container is expected to be provisioned before (or at the latest in the process of) being started
@@ -93,8 +93,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # since the image doesn't have a vagrant user
         web.ssh.username = 'root'
 
-        # docker-container-ssh.sh starts the ssh server on port 2202 to avoid conflicts and confusion with ports 22 and 2222
-        web.ssh.port = 2202
+        # docker-container-ssh.sh starts the ssh server on port 2203 to avoid conflicts and confusion with ports 22 and 2222
+        web.ssh.port = 2203
 
         # cms web-instance provisioning is not done through vagrant's ssh provisioning mechanism since
         # the docker container is expected to be provisioned before (or at the latest in the process of) being started

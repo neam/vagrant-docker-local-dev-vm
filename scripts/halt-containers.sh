@@ -22,12 +22,15 @@ set -x
 # Halt any running containers
 
     vagrant halt db
-    vagrant halt web
     vagrant halt api
     vagrant halt external-yii-frontend
     vagrant halt internal-yii-frontend
     vagrant halt mailcatcher
     vagrant halt proxy
+
+# Halt any legacy containers
+
+    vagrant halt web # TODO: Remove after no-one is using this configuration
 
 # Restore working directory and exit
 cd $pwd
