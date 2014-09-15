@@ -1,0 +1,18 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+    config.vm.provider :docker do |provider|
+        provider.image = "this-image-should/make-vagrant-fail-it-is-ok-and-expected"
+        # use a custom host vm vagrant file in order to gain ssh access and port forwarding
+        provider.vagrant_vagrantfile = "../host-vm/Vagrantfile"
+        # make sure that linux users also spins up the host vm for consistency's sake (remove this if it works just as well without it)
+        provider.force_host_vm
+    end
+
+end

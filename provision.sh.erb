@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -x
+
+cd /vagrant
+
+# in order to prevent accidental overwrites of /root contents, we cd into our own directory where we perform the provisioning
+
+if [ ! -d provisioning ]; then
+    mkdir provisioning
+fi
+cd provisioning
+
+# fix apt sources since ubuntu quantal has reached end of life
+
+sed -i s/archive/old-releases/g /etc/apt/sources.list
+
+# prevent stale apt index
+
+apt-get update
+
+# install useful packages for debugging - htop, nano, psmisc (killall) and mosh
+
+apt-get install -y -q htop nano psmisc mosh
+
+# install and enable xdebug
+
+pecl install xdebug
+echo 'zend_extension=/app/vendor/php/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so' > /app/vendor/php/etc/conf.d/xdebug.ini
+
+mkdir -p /code/tmp/xdebug
+chown nobody /code/tmp/xdebug
+
+echo '
+xdebug.profiler_enable=0
+xdebug.profiler_enable_trigger=1
+xdebug.show_mem_delta=1
+xdebug.profiler_output_dir=/code/tmp/xdebug
+xdebug.profiler_output_name=callgrind.out.sess-%S.ts-%u.script-%s.req-uri-%R.pid-%p
+
+xdebug.trace_format=1
+xdebug.trace_output_dir=/code/tmp/xdebug
+xdebug.trace_output_name=trace.%s.%R.%p.%u
+xdebug.auto_trace=0
+
+xdebug.remote_enable=1
+xdebug.remote_port=9000
+' >> /app/vendor/php/etc/conf.d/xdebug.ini
+
+# done
+
+cd /vagrant

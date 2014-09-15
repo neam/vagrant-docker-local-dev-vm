@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -x
+
+cd /vagrant
+
+# install and start ssh server in background (enables vagrant ssh)
+
+/bin/bash docker-container-ssh.sh 2202
+
+# cms web-container specific provisioning
+
+/bin/bash web-provision.sh
+
+# provisioning done, start cms app
+
+# from: /bin/bash -c /start
+export HOME=/app
+for file in /app/.profile.d/*; do source $file; done
+hash -r
+cd /app
+
+/bin/bash bin/run

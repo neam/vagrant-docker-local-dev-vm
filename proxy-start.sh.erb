@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -x
+
+cd /vagrant
+
+# install and start ssh server in background (enables vagrant ssh)
+
+/bin/bash docker-container-ssh.sh 2203
+
+# proxy-container specific provisioning
+
+/bin/bash proxy-provision.sh
+
+# provisioning done, start cms app
+
+# from: /bin/bash -c /start
+export HOME=/app
+for file in /app/.profile.d/*; do source $file; done
+hash -r
+
+if [ -d "/code/proxy" ]; then
+    DIR="/code/proxy"
+else
+    DIR="/app"
+fi
+
+cd $DIR
+
+/bin/bash run.sh
