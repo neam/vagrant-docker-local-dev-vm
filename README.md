@@ -80,10 +80,14 @@ To follow the logs in the containers, run:
 
     scripts/logs.sh
 
-To follow the logs in a specific containers, run one of the following:
+To follow the logs in a specific container, run one of the following:
 
-    scripts/logs.sh web
     scripts/logs.sh db
+    scripts/logs.sh api
+    scripts/logs.sh external-yii-frontend
+    scripts/logs.sh internal-yii-frontend
+    scripts/logs.sh mailcatcher
+    scripts/logs.sh proxy
 
 To ssh into the host vm, cd into `host-vm` and run `vagrant ssh`.
 
