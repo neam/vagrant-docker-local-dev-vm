@@ -23,4 +23,9 @@ for file in /app/.profile.d/*; do source $file; done
 hash -r
 cd /app
 
+# enable debug output from bin/run
+echo "set -x" > /tmp/run
+cat bin/run >> /tmp/run
+mv /tmp/run bin/run
+
 /bin/bash bin/run
