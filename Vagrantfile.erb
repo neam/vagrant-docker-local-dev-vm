@@ -117,7 +117,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         proxy.vm.provider :docker do |provider|
             provider.image = "<%= ENV['PROXY_DOCKER_IMAGE'] %>"
-            provider.ports = ["12121:5000", "2200:2200"]
+            provider.ports = ["12121:5000"]
             provider.cmd = ["/bin/bash", "/vagrant/proxy-start.sh"]
             provider.volumes = ["/host-vm-code-share:/code"]
             #provider.has_ssh = true
