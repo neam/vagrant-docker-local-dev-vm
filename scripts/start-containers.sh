@@ -33,9 +33,9 @@ set -x
     vagrant up --provider=docker db
     vagrant up --provider=docker api
     vagrant up --provider=docker external-yii-frontend
-    vagrant up --provider=docker internal-yii-frontend
     vagrant up --provider=docker mailcatcher
-    vagrant up --provider=docker proxy & # last and run in background to work around https://github.com/mitchellh/vagrant/issues/3951
+    vagrant up --provider=docker proxy & # runs in background to work around https://github.com/mitchellh/vagrant/issues/3951
+    vagrant up --provider=docker internal-yii-frontend
 
 # Prevent users from thinking that the script is stuck
 
