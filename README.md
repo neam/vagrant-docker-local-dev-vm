@@ -1,9 +1,13 @@
-Local Dev VM - Vagrant Configuration Generator
+Gapminder CMS Local Dev VM
 -----------------------------
 
 Uses [Vagrant](http://www.vagrantup.com/) to provision docker containers that runs Gapminder CMS.
 
 Note: Requires significant free disk space (>10 Gb) since the host virtual machine increases in size on each vagrant reload rsync.
+
+# Requirements
+
+* OSX (Pull requests for Windows and Linux support welcome)
 
 # Installation of prerequisites
 
