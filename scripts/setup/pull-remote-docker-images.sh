@@ -27,6 +27,10 @@ source $script_path/../variables.inc.sh
 
     docker pull $MAILCATCHER_DOCKER_IMAGE
 
+# Fetch the latest ubuntu:trusty docker image since it is used by the docker-md-plugin and it is conventient to pull all remote images in the same step
+
+    docker pull ubuntu:trusty
+
 # Restore working directory and exit
 cd $pwd
 exit 0
