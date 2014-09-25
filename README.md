@@ -29,10 +29,17 @@ Add the following to `~/.bash_profile`, `~/.profile` or similar:
 
 Open up a terminal window and cd into the same directory as this readme file.
 
+Make sure submodules are initialized:
+
+    git submodule init
+    git submodule update
+
 Run the following scripts:
 
     scripts/setup/generate-host-vm-vagrant-config.sh
     scripts/setup/install-docker-in-host-vm.sh
+
+(Note: The above command should fail with the error message `Stderr: Unable to find image 'this-image-should/make-vagrant-fail-it-is-ok-and-expected' locally`. This is OK and expected. The non-existing image name was just used temporarily to make vagrant install Docker in the host vm.)
 
 Login to the docker registry (unless you have already done so previously):
 
@@ -40,7 +47,7 @@ Login to the docker registry (unless you have already done so previously):
 
 (Note: Make sure you have signed up on [https://registry.hub.docker.com]() and have been invited to access Gapminder's private repository of docker images)
 
-Pull the latest CMS base image (Can not be run by vagrant because it requires login - [https://github.com/mitchellh/vagrant/issues/4042]()):
+Pull the latest CMS base images (Can not be run by vagrant because it requires login - [https://github.com/mitchellh/vagrant/issues/4042]()):
 
     scripts/setup/pull-remote-docker-images.sh
 
@@ -49,10 +56,6 @@ Bring up and provision the docker containers:
     scripts/setup-containers.sh
 
 Note: Currently the above command seems to fail due to a vagrant bug (`padding error, need 3037648479 block 16`), but it is most likely a false alarm, the containers should be up and running. Re-run the script if this happens (to be sure).
-
-In the local CMS code, adapt `local/envbootstrap.php` to use the database details given by:
-
-    scripts/list-db-credentials.sh
 
 After this, the getting-started instructions should be continued in the CMS readme.
 

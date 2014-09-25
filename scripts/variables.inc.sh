@@ -4,8 +4,13 @@
 _pwd=`pwd`
 _script_path=`dirname $0`
 
-# work in parent directory
-cd $_script_path/../
+# work in extension root directory
+
+if [ "$(basename $script_path)" == "setup" ]; then
+    cd $_script_path/../../
+else
+    cd $_script_path/../
+fi
 
 # Use the following docker images - include tags for version-pinning
 
@@ -42,7 +47,7 @@ cd $_script_path/../
 # Only relevant and correctly set for scripts in the setup directory, thus we only set it when run from there, avoiding confusion
 if [ "$(basename $script_path)" == "setup" ]; then
 
-    # To use local source-code, set the following environment variable (relative path to the parent repo codebase):
+    # To use local source-code, set the following environment variable (relative path from the setup directory to the parent repo codebase):
 
         export LOCAL_SOURCE_CODE_RELATIVE="../../../../"
 
