@@ -34,12 +34,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     end
 
-    config.vm.define "api" do |web|
+    config.vm.define "web" do |web|
 
         web.vm.provider :docker do |provider|
             provider.image = "<%= ENV['LEMP_DOCKER_IMAGE'] %>"
-            provider.ports = ["50505:5000", "2201:2201", "9001:9001"]
-            provider.cmd = ["/bin/bash", "/vagrant/web-start.sh", "api", "2201"]
+            provider.ports = ["11111:5000", "2201:2201", "9001:9001"]
+            provider.cmd = ["/bin/bash", "/vagrant/web-start.sh", "web", "2201"]
             provider.volumes = ["/host-vm-code-share:/code"]
             provider.has_ssh = true
         end
@@ -49,52 +49,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         # docker-container-ssh.sh starts an additional ssh server on port 2201 to avoid conflicts and confusion with ports 22 and 2222 which are reserved for the host-vm
         web.ssh.port = 2201
-
-        # cms web-instance provisioning is not done through vagrant's ssh provisioning mechanism since
-        # the docker container is expected to be provisioned before (or at the latest in the process of) being started
-        # web-provision.sh is instead run by web-start.sh before starting the container
-        # web.vm.provision "shell", :path => "{web}-config.sh"
-
-    end
-
-    config.vm.define "external-yii-frontend" do |web|
-
-        web.vm.provider :docker do |provider|
-            provider.image = "<%= ENV['LEMP_DOCKER_IMAGE'] %>"
-            provider.ports = ["11111:5000", "2202:2202", "9002:9002"]
-            provider.cmd = ["/bin/bash", "/vagrant/web-start.sh", "external-yii-frontend", "2202"]
-            provider.volumes = ["/host-vm-code-share:/code"]
-            provider.has_ssh = true
-        end
-
-        # since the image doesn't have a vagrant user
-        web.ssh.username = 'root'
-
-        # docker-container-ssh.sh starts an additional ssh server on port 2202 to avoid conflicts and confusion with ports 22 and 2222 which are reserved for the host-vm
-        web.ssh.port = 2202
-
-        # cms web-instance provisioning is not done through vagrant's ssh provisioning mechanism since
-        # the docker container is expected to be provisioned before (or at the latest in the process of) being started
-        # web-provision.sh is instead run by web-start.sh before starting the container
-        # web.vm.provision "shell", :path => "{web}-config.sh"
-
-    end
-
-    config.vm.define "internal-yii-frontend" do |web|
-
-        web.vm.provider :docker do |provider|
-            provider.image = "<%= ENV['LEMP_DOCKER_IMAGE'] %>"
-            provider.ports = ["10101:5000", "2203:2203", "9003:9003"]
-            provider.cmd = ["/bin/bash", "/vagrant/web-start.sh", "internal-yii-frontend", "2203"]
-            provider.volumes = ["/host-vm-code-share:/code"]
-            provider.has_ssh = true
-        end
-
-        # since the image doesn't have a vagrant user
-        web.ssh.username = 'root'
-
-        # docker-container-ssh.sh starts an additional ssh server on port 2203 to avoid conflicts and confusion with ports 22 and 2222 which are reserved for the host-vm
-        web.ssh.port = 2203
 
         # cms web-instance provisioning is not done through vagrant's ssh provisioning mechanism since
         # the docker container is expected to be provisioned before (or at the latest in the process of) being started

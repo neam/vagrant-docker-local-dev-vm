@@ -5,7 +5,7 @@ set -x
 # enable extended globbing
 shopt -s extglob
 
-export APP_ROOT=/code/cms/yii-apps/internal-yii-frontend
+export APP_ROOT=/code/cms/yiiapps/rest-api
 
 # run local code if available
 if [ -d "$APP_ROOT" ]; then
@@ -19,8 +19,8 @@ if [ -d "$APP_ROOT" ]; then
     # reset environment variables to only contain the following
     echo 'export HOME=/app' > /app/.profile.d/app-env.sh
     echo 'export ENVBOOTSTRAP_STRATEGY=local' >> /app/.profile.d/app-env.sh
-    echo 'export CMS_BASE_URL=127.0.0.1:12121/internal' >> /app/.profile.d/app-env.sh
-    echo 'export CMS_HOST=127.0.0.1:10101' >> /app/.profile.d/app-env.sh
+    echo 'export CMS_BASE_URL=127.0.0.1:12121/friends' >> /app/.profile.d/app-env.sh
+    echo 'export CMS_HOST=127.0.0.1:11111' >> /app/.profile.d/app-env.sh
     echo "export APP_ROOT=$APP_ROOT" >> /app/.profile.d/app-env.sh
     echo 'export LOCAL_SERVICES_IP=172.17.42.1' >> /app/.profile.d/app-env.sh
     echo 'export SELENIUM_HOST=$LOCAL_SERVICES_IP' >> /app/.profile.d/app-env.sh

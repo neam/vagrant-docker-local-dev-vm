@@ -68,19 +68,13 @@ exit 0' > /etc/network/if-post-down.d/iptablessave
     config.vm.network :forwarded_port, guest: 4243, host: 4243
 
     # port forward necessary for http://localhost:$WEB_PORTS to work on local machine
-    config.vm.network :forwarded_port, guest: 50505, host: 50505
     config.vm.network :forwarded_port, guest: 11111, host: 11111
-    config.vm.network :forwarded_port, guest: 10101, host: 10101
 
     # port forward necessary to be able to SSH directly into docker web containers (for easier more direct ssh connections as compared to proxying through the host vm)
     config.vm.network :forwarded_port, guest: 2201, host: 2201
-    config.vm.network :forwarded_port, guest: 2202, host: 2202
-    config.vm.network :forwarded_port, guest: 2203, host: 2203
 
     # port forward necessary to be able to connect to xdebug debugger directly into docker web containers
     config.vm.network :forwarded_port, guest: 9001, host: 9001
-    config.vm.network :forwarded_port, guest: 9002, host: 9002
-    config.vm.network :forwarded_port, guest: 9003, host: 9003
 
     # port forward necessary to be able to connect to the mysql server against 127.0.0.1:$DB_PORT locally
     config.vm.network :forwarded_port, guest: <%= ENV['DB_PORT'] %>, host: <%= ENV['DB_PORT'] %>

@@ -97,9 +97,7 @@ To follow the logs in the containers, run:
 To follow the logs in a specific container, run one of the following:
 
     scripts/logs.sh db
-    scripts/logs.sh api
-    scripts/logs.sh external-yii-frontend
-    scripts/logs.sh internal-yii-frontend
+    scripts/logs.sh web
     scripts/logs.sh mailcatcher
     scripts/logs.sh proxy
 
