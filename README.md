@@ -58,12 +58,10 @@ Bring up and provision the docker containers:
 Tip: You can run `watch docker ps` in another terminal to see the current status of running containers as they are started. The output should look something like the following when all containers are up (Note: only showing the first five columns below):
 
     CONTAINER ID   IMAGE                                                                      COMMAND                CREATED         STATUS
-    a43668251a51   gapminder/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db   /bin/bash /vagrant/p   2 minutes ago   Up About a minute
-    72cc19bc32e8   gapminder/cms:feature_cms-1023-friends-base-url-cms-6c65599-clean-db       /bin/bash /vagrant/w   3 minutes ago   Up 2 minutes
-    4d4cfb93a733   nisenabe/mailcatcher:latest                                                mailcatcher -f --ver   3 minutes ago   Up 2 minutes
-    97679eebd5a5   gapminder/cms:feature_cms-1023-friends-base-url-cms-6c65599-clean-db       /bin/bash /vagrant/w   4 minutes ago   Up 2 minutes
-    74eacd815fab   gapminder/cms:feature_cms-1023-friends-base-url-cms-6c65599-clean-db       /bin/bash /vagrant/w   5 minutes ago   Up 3 minutes
-    da3d0e6ab52f   mariadb/cms:latest                                                         /usr/bin/start_maria   5 minutes ago   Up 3 minutes
+    cd7e51984d33   gapminder/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db   /bin/bash /vagrant/p   2 minutes ago   Up About a minute
+    ae24cb46f35c   nisenabe/mailcatcher:latest                                                mailcatcher -f --ver   3 minutes ago   Up 2 minutes
+    af7300296836   gapminder/cms:feature_cms-1023-friends-base-url-cms-6c65599-clean-db       /bin/bash /vagrant/w   3 minutes ago   Up 2 minutes
+    7d713175b2b9   mariadb/cms:latest                                                         /usr/bin/start_maria   4 minutes ago   Up 2 minutes
 
 After this, the getting-started instructions should be continued in the main project readme.
 
