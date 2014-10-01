@@ -120,7 +120,7 @@ If you simply can't connect to any port locally, vagrant or virtualbox may have 
 
 ## On dokku host
 
-Set the docker images to base the update on (replace with the appropriate deployed app names):
+Set the docker images to base the update on (replace with the appropriate deployed app names to base the future local dev container images on):
 
     export LEMP_APP=feature_cms-1023-friends-base-url-cms-abc1234-clean-db
     export PROXY_APP=feature_cms-1023-friends-base-url-proxy-abc1234-clean-db
