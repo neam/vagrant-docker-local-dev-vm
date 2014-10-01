@@ -4,22 +4,25 @@
 _pwd=`pwd`
 _script_path=`dirname $0`
 
-# work in parent directory
-cd $_script_path/../
+# work in extension root directory
 
-# Use the following docker image tags (for version-pinning)
+if [ "$(basename $script_path)" == "setup" ]; then
+    cd $_script_path/../../
+else
+    cd $_script_path/../
+fi
 
-    export APP=feature_cms-1023-friends-base-url-cms-6c65599-clean-db
-    export PROXY_APP=feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db
+# Use the following docker images - include tags for version-pinning
 
-# Some general configuration variables are necessary for the configurations before provisioning the instances:
+    export DB_DOCKER_IMAGE=mariadb/local
+    export LEMP_DOCKER_IMAGE=gapminder/cms:feature_cms-1023-friends-base-url-cms-6c65599-clean-db
+    export PROXY_DOCKER_IMAGE=gapminder/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db
+    export MAILCATCHER_DOCKER_IMAGE=nisenabe/mailcatcher
 
-    # the port that the cms will be accessible on in the browser, ie http://localhost:11111
-    export WEB_PORT="11111"
-    # the port that the db will be accessible on by the web instance and locally
-    export DB_PORT="13306"
-    # the port that the proxy will be accessible on in the browser, ie http://localhost:15555
-    export PROXY_PORT="12121"
+# Used by docker-md-plugin to set-up a db container for our app (named and with a certain port)
+
+    export DB_APP=cms
+    export DB_PORT=13306
 
 # Choose a provider depending on where to provision the docker host:
 
@@ -41,13 +44,18 @@ cd $_script_path/../
     # export SSH_PRIVATE_KEY=~/.ssh/id_rsa
     # export SSH_PUBLIC_KEY=~/.ssh/id_rsa.pub
 
-# To use local source-code, set the following environment variable (relative path to the parent repo codebase):
+# Only relevant and correctly set for scripts in the setup directory, thus we only set it when run from there, avoiding confusion
+if [ "$(basename $script_path)" == "setup" ]; then
 
-    export LOCAL_SOURCE_CODE_RELATIVE="../../../"
+    # To use local source-code, set the following environment variable (relative path from the setup directory to the parent repo codebase):
 
-# Find the absolute path of the cms codebase
+        export LOCAL_SOURCE_CODE_RELATIVE="../../../../"
 
-    export LOCAL_SOURCE_CODE=$(cd "$LOCAL_SOURCE_CODE_RELATIVE";pwd)
+    # Find the absolute path of the cms codebase
+
+        export LOCAL_SOURCE_CODE=$(cd "$LOCAL_SOURCE_CODE_RELATIVE";pwd)
+
+fi
 
 # Restore working directory and exit
 cd $_pwd

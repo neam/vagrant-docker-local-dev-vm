@@ -22,33 +22,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         provider.force_host_vm
     end
 
-    config.vm.define "web" do |web|
-
-        web.vm.provider :docker do |provider|
-            provider.image = "gapminder/cms:<%= ENV['APP'] %>"
-            provider.ports = ["<%= ENV['WEB_PORT'] %>:5000", "2202:2202", "9000:9000"]
-            provider.cmd = ["/bin/bash", "/vagrant/web-start.sh"]
-            provider.volumes = ["/host-vm-code-share:/code"]
-            provider.has_ssh = true
-        end
-
-        # since the image doesn't have a vagrant user
-        web.ssh.username = 'root'
-
-        # docker-container-ssh.sh starts the ssh server on port 2202 to avoid conflicts and confusion with ports 22 and 2222
-        web.ssh.port = 2202
-
-        # cms web-instance provisioning is not done through vagrant's ssh provisioning mechanism since
-        # the docker container is expected to be provisioned before (or at the latest in the process of) being started
-        # web-provision.sh is instead run by web-start.sh before starting the container
-        # web.vm.provision "shell", :path => "web-provision.sh"
-
-    end
-
     config.vm.define "db" do |db|
 
         db.vm.provider :docker do |provider|
-            provider.image = "mariadb/<%= ENV['APP'] %>"
+            provider.image = "mariadb/<%= ENV['DB_APP'] %>"
             provider.ports = ["<%= ENV['DB_PORT'] %>:3306"]
             provider.cmd = ["/usr/bin/start_mariadb.sh", "<%= ENV['DB_PASS'] %>"]
             provider.volumes = ["<%= ENV['DB_VOLUME'] %>:/opt/mysql"]
@@ -57,24 +34,47 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     end
 
-    config.vm.define "proxy" do |proxy|
+    config.vm.define "web" do |web|
 
-        proxy.vm.provider :docker do |provider|
-            provider.image = "gapminder/proxy:<%= ENV['PROXY_APP'] %>"
-            provider.ports = ["<%= ENV['PROXY_PORT'] %>:5000", "2203:2203"]
-            provider.cmd = ["/bin/bash", "/vagrant/proxy-start.sh"]
+        web.vm.provider :docker do |provider|
+            provider.image = "<%= ENV['LEMP_DOCKER_IMAGE'] %>"
+            provider.ports = ["11111:5000", "2201:2201", "9001:9001"]
+            provider.cmd = ["/bin/bash", "/vagrant/web-start.sh", "web", "2201"]
             provider.volumes = ["/host-vm-code-share:/code"]
-            #provider.has_ssh = true
+            provider.has_ssh = true
         end
+
+        # since the image doesn't have a vagrant user
+        web.ssh.username = 'root'
+
+        # docker-container-ssh.sh starts an additional ssh server on port 2201 to avoid conflicts and confusion with ports 22 and 2222 which are reserved for the host-vm
+        web.ssh.port = 2201
+
+        # cms web-instance provisioning is not done through vagrant's ssh provisioning mechanism since
+        # the docker container is expected to be provisioned before (or at the latest in the process of) being started
+        # web-provision.sh is instead run by web-start.sh before starting the container
+        # web.vm.provision "shell", :path => "{web}-config.sh"
 
     end
 
     config.vm.define "mailcatcher" do |mailcatcher|
 
         mailcatcher.vm.provider :docker do |provider|
-            provider.image = "nisenabe/mailcatcher"
+            provider.image = "<%= ENV['MAILCATCHER_DOCKER_IMAGE'] %>"
             provider.ports = ["1025:1025", "1080:1080"]
             provider.cmd = ["mailcatcher", "-f", "--verbose", "--ip", "0.0.0.0", "--smtp-port", "1025", "--http-port", "1080"]
+        end
+
+    end
+
+    config.vm.define "proxy" do |proxy|
+
+        proxy.vm.provider :docker do |provider|
+            provider.image = "<%= ENV['PROXY_DOCKER_IMAGE'] %>"
+            provider.ports = ["12121:5000"]
+            provider.cmd = ["/bin/bash", "/vagrant/proxy-start.sh"]
+            provider.volumes = ["/host-vm-code-share:/code"]
+            #provider.has_ssh = true
         end
 
     end

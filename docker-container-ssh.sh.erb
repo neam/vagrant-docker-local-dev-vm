@@ -11,6 +11,7 @@ echo 'AuthorizedKeysFile    /etc/ssh/%u/authorized_keys' >> /etc/ssh/sshd_config
 mkdir /etc/ssh/root/
 echo '<%= ENV['SSH_PUBLIC_KEY_CONTENTS'] %>' >> /etc/ssh/root/authorized_keys
 
+/usr/sbin/sshd -p 22 # -D -d &
 /usr/sbin/sshd -p $SSH_PORT # -D -d &
 
 exit 0

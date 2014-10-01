@@ -9,11 +9,11 @@ set -o errexit
 # set common variables
 pwd=`pwd`
 script_path=`dirname $0`
-source $script_path/variables.inc.sh
+source $script_path/../variables.inc.sh
 
 # Work in local build directory
 
-    cd $script_path/../build/$NAME
+    cd $script_path/../../build/$NAME
 
 # Prepare the SSH key for installation in the docker containers:
 
@@ -29,14 +29,14 @@ source $script_path/variables.inc.sh
 
 # Generate the local vagrant config for the docker containers:
 
-    export DB_PASS=$(cat "./.mariadb/pwd_$APP")
-    export DB_VOLUME=$(cat "./.mariadb/volume_$APP")
+    export DB_PASS=$(cat "./.mariadb/pwd_$DB_APP")
+    export DB_VOLUME=$(cat "./.mariadb/volume_$DB_APP")
     erb ../../Vagrantfile.erb > Vagrantfile
     erb ../../provision.sh.erb > provision.sh
     erb ../../web-start.sh.erb > web-start.sh
-    erb ../../web-provision.sh.erb > web-provision.sh
+    erb ../../web-config.sh.erb > web-config.sh
     erb ../../proxy-start.sh.erb > proxy-start.sh
-    erb ../../proxy-provision.sh.erb > proxy-provision.sh
+    erb ../../proxy-config.sh.erb > proxy-config.sh
 
 # Restore working directory and exit
 cd $pwd

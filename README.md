@@ -1,9 +1,13 @@
-Local Dev VM - Vagrant Configuration Generator
+Gapminder CMS Local Dev VM
 -----------------------------
 
 Uses [Vagrant](http://www.vagrantup.com/) to provision docker containers that runs Gapminder CMS.
 
 Note: Requires significant free disk space (>10 Gb) since the host virtual machine increases in size on each vagrant reload rsync.
+
+# Requirements
+
+* OSX (Pull requests for Windows and Linux support welcome)
 
 # Installation of prerequisites
 
@@ -25,12 +29,17 @@ Add the following to `~/.bash_profile`, `~/.profile` or similar:
 
 Open up a terminal window and cd into the same directory as this readme file.
 
-Optionally, set environment variables (see "Configuration" below) to customize the local set-up.
+Make sure submodules are initialized:
+
+    git submodule init
+    git submodule update
 
 Run the following scripts:
 
-    scripts/generate-host-vm-vagrant-config.sh
-    scripts/install-docker-in-host-vm.sh
+    scripts/setup/generate-host-vm-vagrant-config.sh
+    scripts/setup/install-docker-in-host-vm.sh
+
+(Note: The above command should fail with the error message `Stderr: Unable to find image 'this-image-should/make-vagrant-fail-it-is-ok-and-expected' locally`. This is OK and expected. The non-existing image name was just used temporarily to make vagrant install Docker in the host vm.)
 
 Login to the docker registry (unless you have already done so previously):
 
@@ -38,38 +47,37 @@ Login to the docker registry (unless you have already done so previously):
 
 (Note: Make sure you have signed up on [https://registry.hub.docker.com]() and have been invited to access Gapminder's private repository of docker images)
 
-Pull the latest CMS base image (Can not be run by vagrant because it requires login - [https://github.com/mitchellh/vagrant/issues/4042]()):
+Pull the latest CMS base images (Can not be run by vagrant because it requires login - [https://github.com/mitchellh/vagrant/issues/4042]()):
 
-    scripts/pull-cms-docker-images.sh
+    scripts/setup/pull-remote-docker-images.sh
 
-Now, run the following scripts:
+Bring up and provision the docker containers:
 
-    scripts/setup-db-docker-container.sh
-    scripts/generate-cms-vagrant-config.sh
+    scripts/setup-containers.sh
 
-Bring up and provision the docker containers for Gapminder CMS:
+Tip: You can run `watch docker ps` in another terminal to see the current status of running containers as they are started. The output should look something like the following when all containers are up (Note: only showing the first five columns below):
 
-    scripts/start-cms-containers.sh
+    CONTAINER ID   IMAGE                                                                      COMMAND                CREATED         STATUS
+    cd7e51984d33   gapminder/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db   /bin/bash /vagrant/p   2 minutes ago   Up About a minute
+    ae24cb46f35c   nisenabe/mailcatcher:latest                                                mailcatcher -f --ver   3 minutes ago   Up 2 minutes
+    af7300296836   gapminder/cms:feature_cms-1023-friends-base-url-cms-6c65599-clean-db       /bin/bash /vagrant/w   3 minutes ago   Up 2 minutes
+    7d713175b2b9   mariadb/cms:latest                                                         /usr/bin/start_maria   4 minutes ago   Up 2 minutes
 
-Note: Currently the above command seems to fail due to a vagrant bug (`padding error, need 3037648479 block 16`), but it is most likely a false alarm, the containers should be up and running. Re-run the script if this happens (to be sure).
-
-In the local CMS code, adapt `local/envbootstrap.php` to use the database details given by:
-
-    scripts/list-db-credentials.sh
-
-After this, the getting-started instructions should be continued in the CMS readme.
+After this, the getting-started instructions should be continued in the main project readme.
 
 ## Update to the latest git changes
 
-After pulling the latest git changes, run the local set-up routine above once again, but *instead* of running `start-cms-containers.sh`, run the following:
+After pulling the latest git changes, run the following to bring up the containers using the latest configuration:
 
+    scripts/setup/generate-host-vm-vagrant-config.sh
     scripts/vagrant-reload-host-vm.sh
-    scripts/vagrant-reload-web-container.sh
-    scripts/vagrant-reload-db-container.sh
-    scripts/vagrant-reload-proxy-container.sh
-    scripts/vagrant-reload-mailcatcher-container.sh
+    scripts/setup-containers.sh
 
 ## Useful commands
+
+To quickly bring up and provision the docker containers without running setup scripts again (for instance after rebooting your laptop but not changed / pulled any changes to the vm configuration):
+
+    scripts/start-containers.sh
 
 To verify that the database can be accessed from the local work station:
 
@@ -84,45 +92,53 @@ To follow the logs in the containers, run:
 
     scripts/logs.sh
 
-To follow the logs in a specific containers, run one of the following:
+To follow the logs in a specific container, run one of the following:
 
-    scripts/logs.sh web
     scripts/logs.sh db
+    scripts/logs.sh web
+    scripts/logs.sh mailcatcher
+    scripts/logs.sh proxy
 
 To ssh into the host vm, cd into `host-vm` and run `vagrant ssh`.
 
-## Notes about changing the vagrant config
+## Troubleshooting
 
-Any changes to the vagrant files should be done by changing the *.erb-files in the current directory. Then, re-generate the local vagrant config as per above.
+Sometimes the `scripts/setup-containers.sh` command fail seemingly due to a vagrant bug (`padding error, need 3037648479 block 16`), but it is most likely a false alarm, the containers should be up and running. If not, re-run the script until all containers are up and running.
 
-If you change WEB_PORT, you need to cd into `host-vm` and run `vagrant reload` for the port forwards to be updated.
+If you are running into `warning: Insecure world writable dir /usr in PATH, mode 040777`, try removing global write access from /usr and it's sub-directories:
 
-If you do any changes to the vagrant file docker provisioning config or the host vm config, you'll need to run `docker rm -f CONTAINER_ID` before vagrant reload/up. CONTAINER_ID is the first column in the output from `docker ps -a`. A quick way to remove all docker containers is to run `docker ps -aq | xargs docker rm -f`.
+    sudo chmod -R o-w /usr/
 
-If you run into "The container started either never left the "stopped" state or ..", try deleting the container and run `vagrant up` again.
+If you can't connect to the database and cant figure out why, try starting off from scratch by running the following:
 
-# Updating the docker base images
+    rm -r build/cms-virtualbox/.mariadb
+    scripts/setup-containers.sh
+
+If you simply can't connect to any port locally, vagrant or virtualbox may have run inte som networking issue. Either restart or remove the virtual machine from virtualbox and run the setup routine again.
+
+# Updating the docker base images for LEMP and PROXY
 
 ## On dokku host
 
 Set the docker images to base the update on (replace with the appropriate deployed app names):
 
-    export APP=feature_cms-1023-friends-base-url-cms-abc1234-clean-db
+    export LEMP_APP=feature_cms-1023-friends-base-url-cms-abc1234-clean-db
     export PROXY_APP=feature_cms-1023-friends-base-url-proxy-abc1234-clean-db
 
 Make sure the containers are running on the current dokku host:
 
-    docker ps | grep ${APP}
+    docker ps | grep ${LEMP_APP}
     docker ps | grep ${PROXY_APP}
 
-Tag and push cms docker app:
+Tag and push cms docker lemp app:
 
-    export CONTAINER_ID=`docker ps | grep dokku/${APP}:latest | awk '{print $1}'`
+    export CONTAINER_ID=`docker ps | grep dokku/${LEMP_APP}:latest | awk '{print $1}'`
 
-    docker commit $CONTAINER_ID gapminder/cms:${APP}
+    docker commit $CONTAINER_ID gapminder/cms:${LEMP_APP}
+    # todo - strip away existing config since it contains secrets
     docker push gapminder/cms
 
-Tag and push cms docker proxy:
+Tag and push cms docker proxy app:
 
     export PROXY_CONTAINER_ID=`docker ps | grep dokku/${PROXY_APP}:latest | awk '{print $1}'`
 
