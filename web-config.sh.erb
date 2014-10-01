@@ -18,8 +18,8 @@ if [ -d "$PROJECT_ROOT" ]; then
 
     # reset environment variables to only contain the following
     echo 'export HOME=/app' > /app/.profile.d/app-env.sh
-    echo 'export CMS_BASE_URL=127.0.0.1:12121/friends' >> /app/.profile.d/app-env.sh
-    echo 'export CMS_HOST=127.0.0.1:11111' >> /app/.profile.d/app-env.sh
+    echo 'export PROXY_HOST=127.0.0.1:12121' >> /app/.profile.d/app-env.sh
+    echo 'export WEB_HOST=127.0.0.1:11111' >> /app/.profile.d/app-env.sh
     echo 'export CONFIG_INCLUDE=config/local/include.php' >> /app/.profile.d/app-env.sh
     echo "export PROJECT_ROOT=$PROJECT_ROOT" >> /app/.profile.d/app-env.sh
     echo 'export LOCAL_SERVICES_IP=172.17.42.1' >> /app/.profile.d/app-env.sh
