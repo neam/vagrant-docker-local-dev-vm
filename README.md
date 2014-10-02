@@ -31,8 +31,7 @@ Open up a terminal window and cd into the same directory as this readme file.
 
 Make sure submodules are initialized:
 
-    git submodule init
-    git submodule update
+    git submodule update --init --recursive
 
 Run the following scripts:
 
