@@ -117,11 +117,13 @@ If you simply can't connect to any port locally, vagrant or virtualbox may have 
 
 # Updating the docker base images for LEMP and PROXY
 
+This makes the nginx configuration, system files, vendor libs etc built by the buildpack available for use in the local dev vm.
+
 ## On dokku host
 
 Set the docker images to base the update on (replace with the appropriate deployed app names to base the future local dev container images on):
 
-    export LEMP_APP=feature_cms-1023-friends-base-url-cms-abc1234-clean-db
+    export LEMP_APP=feature_cmsint-155-produce-pages-pu-cms-clean-db
     export PROXY_APP=feature_cms-1023-friends-base-url-proxy-abc1234-clean-db
 
 Make sure the containers are running on the current dokku host:
@@ -143,6 +145,10 @@ Tag and push cms docker proxy app:
 
     docker commit $PROXY_CONTAINER_ID gapminder/proxy:${PROXY_APP}
     docker push gapminder/proxy
+
+## In local dev vm config
+
+Update the docker image tag in `scripts/variables.inc.sh` to the one(s) you just pushed above.
 
 # TODO
 
