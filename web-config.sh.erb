@@ -27,8 +27,8 @@ if [ -d "$PROJECT_ROOT" ]; then
     echo 'export SELENIUM_PORT=14444' >> /app/.profile.d/app-env.sh
 
     # get root user connecting via ssh to a productive prompt immediately
+    echo 'source /exec' >> /root/.profile # make all environment variables available
     echo "cd $PROJECT_ROOT" >> /root/.profile # step in to the root of the cms component codebase
-    echo 'for file in /app/.profile.d/*; do source $file; done' >> /root/.profile # make all environment variables available
 
 fi
 
