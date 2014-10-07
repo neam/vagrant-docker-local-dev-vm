@@ -26,6 +26,9 @@ if [ -d "$PROJECT_ROOT" ]; then
     echo 'export SELENIUM_HOST=$LOCAL_SERVICES_IP' >> /app/.profile.d/app-env.sh
     echo 'export SELENIUM_PORT=14444' >> /app/.profile.d/app-env.sh
 
+    # add composer.phar to path ("z-" workaround necessary so that it gets sourced after "config_vars" which resets the PATH)
+    echo 'export PATH="$HOME/vendor/composer/bin::$PATH"' > /app/.profile.d/z-composer.sh
+
     # get root user connecting via ssh to a productive prompt immediately
     echo 'source /exec' >> /root/.profile # make all environment variables available
     echo "cd $PROJECT_ROOT" >> /root/.profile # step in to the root of the cms component codebase
