@@ -3,13 +3,26 @@ Gapminder CMS Local Dev VM
 
 Uses [Vagrant](http://www.vagrantup.com/) to provision docker containers that runs Gapminder CMS.
 
-Note: Requires significant free disk space (>10 Gb) since the host virtual machine increases in size on each vagrant reload rsync.
+# Features
+
+* Installs docker properly on OSX (Using a host vm through Vagrant's docker provider)
+* Uses only 1 virtual machine but allows installation of as many docker containers that are necessary to set-up services locally (LAMP stack, LEMP stack, MEAN stack, any databases, SMTP, RabbitMQ etc - anything at https://registry.hub.docker.com/ is game)
+* Includes scripts for setting up MariaDB docker container with persistent data
+* Port forwards necessary ports so that docker containers are accessible in the browser
 
 # Requirements
 
 * OSX (Pull requests for Windows and Linux support welcome)
 
-# Installation of prerequisites
+# Installation
+
+1. Fork this repo
+2. Alter the composer metadata to reflect your fork
+3. Add your fork as a submodule or add it as a composer dependency
+
+# Developer machine local set-up
+
+## Installation of prerequisites
 
 Install vagrant from [http://www.vagrantup.com/]() (v1.6.3) and VirtualBox from [https://www.virtualbox.org/]().
 
@@ -25,13 +38,9 @@ Add the following to `~/.bash_profile`, `~/.profile` or similar:
 
     export DOCKER_HOST=tcp://localhost:4243
 
-# Local set-up
+## Install the docker daemon
 
 Open up a terminal window and cd into the same directory as this readme file.
-
-Make sure submodules are initialized:
-
-    git submodule update --init --recursive
 
 Run the following scripts:
 
@@ -40,15 +49,21 @@ Run the following scripts:
 
 (Note: The above command should fail with the error message `Stderr: Unable to find image 'this-image-should/make-vagrant-fail-it-is-ok-and-expected' locally`. This is OK and expected. The non-existing image name was just used temporarily to make vagrant install Docker in the host vm.)
 
+## Setup docker containers
+
 Login to the docker registry (unless you have already done so previously):
 
     docker login
 
-(Note: Make sure you have signed up on [https://registry.hub.docker.com]() and have been invited to access Gapminder's private repository of docker images)
+(Note: Make sure you have signed up on [https://registry.hub.docker.com]() and have been invited to access any private repositories of docker images that your project is using)
 
-Pull the latest CMS base images (Can not be run by vagrant because it requires login - [https://github.com/mitchellh/vagrant/issues/4042]()):
+Pull the latest docker images (Can not be run by vagrant because it requires login - [https://github.com/mitchellh/vagrant/issues/4042]()):
 
     scripts/setup/pull-remote-docker-images.sh
+
+Make sure submodules are initialized:
+
+    git submodule update --init --recursive
 
 Bring up and provision the docker containers:
 
@@ -113,7 +128,9 @@ If you can't connect to the database and cant figure out why, try starting off f
     rm -r build/cms-virtualbox/.mariadb
     scripts/setup-containers.sh
 
-If you simply can't connect to any port locally, vagrant or virtualbox may have run inte som networking issue. Either restart or remove the virtual machine from virtualbox and run the setup routine again.
+If you simply can't connect to any port locally, vagrant or virtualbox may have run into some networking issue. Reboot your machine (seriously, it has actually helped). If that didn't help - either restart or remove the virtual machine from virtualbox and run the setup routine again.
+
+The virtual machine requires significant free disk space (>10 Gb) since the host virtual machine increases in size on each vagrant rsync.
 
 # Updating the docker base images for LEMP and PROXY
 
@@ -150,7 +167,9 @@ Tag and push cms docker proxy app:
 
 Update the docker image tag in `scripts/variables.inc.sh` to the one(s) you just pushed above.
 
-# TODO
+# Using the vagrant configuration to deploy containers on a remote host
+
+TODO: This section is not finished nor tested at the moment, pull requests are welcome.
 
 ## Digital Ocean
 
