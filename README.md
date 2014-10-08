@@ -1,7 +1,7 @@
-Gapminder CMS Local Dev VM
+Yii DNA Local Dev VM
 -----------------------------
 
-Uses [Vagrant](http://www.vagrantup.com/) to provision docker containers that runs Gapminder CMS.
+Uses [Vagrant](http://www.vagrantup.com/) to provision docker containers that runs a Yii DNA Project.
 
 # Features
 
@@ -73,8 +73,8 @@ Tip: You can run `watch docker ps` in another terminal to see the current status
 
     CONTAINER ID   IMAGE                                                                      COMMAND                CREATED         STATUS
     cd7e51984d33   gapminder/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db   /bin/bash /vagrant/p   2 minutes ago   Up About a minute
+    af7300296836   fooproject/cms:feature_foo-123-new-nginx-configuration-2d2f560             /bin/bash /vagrant/w   3 minutes ago   Up 2 minutes
     ae24cb46f35c   nisenabe/mailcatcher:latest                                                mailcatcher -f --ver   3 minutes ago   Up 2 minutes
-    af7300296836   gapminder/cms:feature_cms-1023-friends-base-url-cms-6c65599-clean-db       /bin/bash /vagrant/w   3 minutes ago   Up 2 minutes
     7d713175b2b9   mariadb/cms:latest                                                         /usr/bin/start_maria   4 minutes ago   Up 2 minutes
 
 After this, the getting-started instructions should be continued in the main project readme.
@@ -152,16 +152,16 @@ Tag and push cms docker lemp app:
 
     export CONTAINER_ID=`docker ps | grep dokku/${LEMP_APP}:latest | awk '{print $1}'`
 
-    docker commit $CONTAINER_ID gapminder/cms:${LEMP_APP}
+    docker commit $CONTAINER_ID fooproject/cms:${LEMP_APP}
     # todo - strip away existing config since it contains secrets
-    docker push gapminder/cms
+    docker push fooproject/cms
 
 Tag and push cms docker proxy app:
 
     export PROXY_CONTAINER_ID=`docker ps | grep dokku/${PROXY_APP}:latest | awk '{print $1}'`
 
-    docker commit $PROXY_CONTAINER_ID gapminder/proxy:${PROXY_APP}
-    docker push gapminder/proxy
+    docker commit $PROXY_CONTAINER_ID fooproject/proxy:${PROXY_APP}
+    docker push fooproject/proxy
 
 ## In local dev vm config
 
