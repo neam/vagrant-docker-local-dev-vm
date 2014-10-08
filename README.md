@@ -1,7 +1,7 @@
-Yii DNA Local Dev VM
+Vagrant Docker Local Dev VM
 -----------------------------
 
-Uses [Vagrant](http://www.vagrantup.com/) to provision docker containers that runs a Yii DNA Project.
+Uses [Vagrant](http://www.vagrantup.com/) to provision [Docker](https://www.docker.com/) containers for local development purposes.
 
 # Features
 

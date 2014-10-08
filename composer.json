@@ -1,8 +1,8 @@
 {
-    "name": "gapminder/gapminder-cms-local-dev-vm",
+    "name": "neam/vagrant-docker-local-dev-vm",
     "description": ".",
     "keywords": ["php", "vm", "vagrant", "docker", "local-dev"],
-    "homepage": "https://github.com/gapminder/gapminder-cms-local-dev-vm",
+    "homepage": "https://github.com/neam/vagrant-docker-local-dev-vm",
     "type": "project",
     "license": "BSD-3-Clause",
     "authors": [
