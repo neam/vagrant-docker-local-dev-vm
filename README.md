@@ -9,6 +9,7 @@ Uses [Vagrant](http://www.vagrantup.com/) to provision docker containers that ru
 * Uses only 1 virtual machine but allows installation of as many docker containers that are necessary to set-up services locally (LAMP stack, LEMP stack, MEAN stack, any databases, SMTP, RabbitMQ etc - anything at https://registry.hub.docker.com/ is game)
 * Includes scripts for setting up MariaDB docker container with persistent data
 * Port forwards necessary ports so that docker containers are accessible in the browser
+* Sets up a tcp proxy that enable access to the selenium server running on the developer machine on port 14444 within docker containers (So that acceptance tests can be run from within the containers)
 
 # Requirements
 
