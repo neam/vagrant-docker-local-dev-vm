@@ -72,7 +72,6 @@ Bring up and provision the docker containers:
 Tip: You can run `watch docker ps` in another terminal to see the current status of running containers as they are started. The output should look something like the following when all containers are up (Note: only showing the first five columns below):
 
     CONTAINER ID   IMAGE                                                                      COMMAND                CREATED         STATUS
-    cd7e51984d33   gapminder/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db   /bin/bash /vagrant/p   2 minutes ago   Up About a minute
     af7300296836   fooproject/cms:feature_foo-123-new-nginx-configuration-2d2f560             /bin/bash /vagrant/w   3 minutes ago   Up 2 minutes
     ae24cb46f35c   nisenabe/mailcatcher:latest                                                mailcatcher -f --ver   3 minutes ago   Up 2 minutes
     7d713175b2b9   mariadb/cms:latest                                                         /usr/bin/start_maria   4 minutes ago   Up 2 minutes
@@ -100,7 +99,6 @@ To verify that the database can be accessed from the local work station:
 To ssh into the web container (Note: the db container does not support ssh):
 
     scripts/ssh.sh web
-    # scripts/ssh.sh proxy # The proxy container should support ssh but it is not currently working
 
 To follow the logs in the containers, run:
 
@@ -111,7 +109,6 @@ To follow the logs in a specific container, run one of the following:
     scripts/logs.sh db
     scripts/logs.sh web
     scripts/logs.sh mailcatcher
-    scripts/logs.sh proxy
 
 To ssh into the host vm, cd into `host-vm` and run `vagrant ssh`.
 
@@ -132,7 +129,7 @@ If you simply can't connect to any port locally, vagrant or virtualbox may have 
 
 The virtual machine requires significant free disk space (>10 Gb) since the host virtual machine increases in size on each vagrant rsync.
 
-# Updating the docker base images for LEMP and PROXY
+# Updating the docker base images for LEMP
 
 This makes the nginx configuration, system files, vendor libs etc built by the buildpack available for use in the local dev vm.
 
@@ -141,12 +138,10 @@ This makes the nginx configuration, system files, vendor libs etc built by the b
 Set the docker images to base the update on (replace with the appropriate deployed app names to base the future local dev container images on):
 
     export LEMP_APP=feature_cmsint-155-produce-pages-pu-cms-clean-db
-    export PROXY_APP=feature_cms-1023-friends-base-url-proxy-abc1234-clean-db
 
 Make sure the containers are running on the current dokku host:
 
     docker ps | grep ${LEMP_APP}
-    docker ps | grep ${PROXY_APP}
 
 Tag and push cms docker lemp app:
 
@@ -155,13 +150,6 @@ Tag and push cms docker lemp app:
     docker commit $CONTAINER_ID fooproject/cms:${LEMP_APP}
     # todo - strip away existing config since it contains secrets
     docker push fooproject/cms
-
-Tag and push cms docker proxy app:
-
-    export PROXY_CONTAINER_ID=`docker ps | grep dokku/${PROXY_APP}:latest | awk '{print $1}'`
-
-    docker commit $PROXY_CONTAINER_ID fooproject/proxy:${PROXY_APP}
-    docker push fooproject/proxy
 
 ## In local dev vm config
 

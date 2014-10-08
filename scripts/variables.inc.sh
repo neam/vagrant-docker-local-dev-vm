@@ -16,7 +16,6 @@ fi
 
     export DB_DOCKER_IMAGE=mariadb/local
     export LEMP_DOCKER_IMAGE=gapminder/cms:feature_cmsint-155-produce-pages-pu-cms-clean-db
-    export PROXY_DOCKER_IMAGE=gapminder/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db
     export MAILCATCHER_DOCKER_IMAGE=nisenabe/mailcatcher
 
 # Used by docker-md-plugin to set-up a db container for our app (named and with a certain port)

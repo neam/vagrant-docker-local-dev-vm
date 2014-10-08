@@ -35,8 +35,6 @@ source $script_path/../variables.inc.sh
     erb ../../provision.sh.erb > provision.sh
     erb ../../web-start.sh.erb > web-start.sh
     erb ../../web-config.sh.erb > web-config.sh
-    erb ../../proxy-start.sh.erb > proxy-start.sh
-    erb ../../proxy-config.sh.erb > proxy-config.sh
 
 # Restore working directory and exit
 cd $pwd
