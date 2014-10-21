@@ -35,13 +35,19 @@ Install the docker client for OSX:
 
     brew install docker
 
-Add the following to `~/.bash_profile`, `~/.profile` or similar:
+Open up a terminal window and cd into the same directory as this readme file.
 
-    export DOCKER_HOST=tcp://localhost:4243
+Create a project-specific `.local-dev-vm-env` file:
+
+    cp .local-dev-vm-env.dist ../../../.local-dev-vm-env
 
 ## Install the docker daemon
 
 Open up a terminal window and cd into the same directory as this readme file.
+
+Source the project's `.local-dev-vm-env` file:
+
+    source ../../../.local-dev-vm-env
 
 Run the following scripts:
 
@@ -73,8 +79,8 @@ Bring up and provision the docker containers:
 Tip: You can run `watch docker ps` in another terminal to see the current status of running containers as they are started. The output should look something like the following when all containers are up (Note: only showing the first five columns below):
 
     CONTAINER ID   IMAGE                                                                      COMMAND                CREATED         STATUS
-    cd7e51984d33   gapminder/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db   /bin/bash /vagrant/p   2 minutes ago   Up About a minute
-    af7300296836   fooproject/cms:feature_foo-123-new-nginx-configuration-2d2f560             /bin/bash /vagrant/w   3 minutes ago   Up 2 minutes
+    cd7e51984d33   fooproject/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db  /bin/bash /vagrant/p   2 minutes ago   Up About a minute
+    af7300296836   fooproject/web:feature_foo-123-new-nginx-configuration-2d2f560             /bin/bash /vagrant/w   3 minutes ago   Up 2 minutes
     ae24cb46f35c   nisenabe/mailcatcher:latest                                                mailcatcher -f --ver   3 minutes ago   Up 2 minutes
     7d713175b2b9   mariadb/cms:latest                                                         /usr/bin/start_maria   4 minutes ago   Up 2 minutes
 
@@ -149,15 +155,15 @@ Make sure the containers are running on the current dokku host:
     docker ps | grep ${LEMP_APP}
     docker ps | grep ${PROXY_APP}
 
-Tag and push cms docker lemp app:
+Tag and push web docker lemp app:
 
     export CONTAINER_ID=`docker ps | grep dokku/${LEMP_APP}:latest | awk '{print $1}'`
 
-    docker commit $CONTAINER_ID fooproject/cms:${LEMP_APP}
+    docker commit $CONTAINER_ID fooproject/web:${LEMP_APP}
     # todo - strip away existing config since it contains secrets
-    docker push fooproject/cms
+    docker push fooproject/web
 
-Tag and push cms docker proxy app:
+Tag and push web docker proxy app:
 
     export PROXY_CONTAINER_ID=`docker ps | grep dokku/${PROXY_APP}:latest | awk '{print $1}'`
 
@@ -166,7 +172,7 @@ Tag and push cms docker proxy app:
 
 ## In local dev vm config
 
-Update the docker image tag in `scripts/variables.inc.sh` to the one(s) you just pushed above.
+Update the docker image tag in `.local-dev-vm-env` to the one(s) you just pushed above.
 
 # Using the vagrant configuration to deploy containers on a remote host
 

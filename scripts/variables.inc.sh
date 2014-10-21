@@ -12,50 +12,26 @@ else
     cd $_script_path/../
 fi
 
-# Use the following docker images - include tags for version-pinning
+# Source project-specific local dev vm config
 
-    export DB_DOCKER_IMAGE=mariadb/local
-    export LEMP_DOCKER_IMAGE=gapminder/cms:feature_cmsint-155-produce-pages-pu-cms-clean-db
-    export PROXY_DOCKER_IMAGE=gapminder/proxy:feature_cms-1023-friends-base-url-proxy-2d2f560-clean-db
-    export MAILCATCHER_DOCKER_IMAGE=nisenabe/mailcatcher
-
-# Used by docker-md-plugin to set-up a db container for our app (named and with a certain port)
-
-    export DB_APP=cms
-    export DB_PORT=13306
-
-# Choose a provider depending on where to provision the docker host:
-
-    export HOST_VM_PROVIDER=virtualbox
-    # todo:
-    # export HOST_VM_PROVIDER=digital-ocean
-    # export HOST_VM_PROVIDER=aws
+    source ../../../.local-dev-vm-env
 
 # Create the build directories for our local set-up:
 
-    export NAME=cms-$HOST_VM_PROVIDER
+    export NAME=vm-$HOST_VM_PROVIDER
     mkdir -p build/$NAME/host-vm
 
-# Choose either an insecure or a secure ssh key (note that automatic provisioning will not work when using secure keys):
+# Relative path to the project root
 
-    export SSH_PRIVATE_KEY=insecure_key
-    export SSH_PUBLIC_KEY=insecure_key.pub
-    # OR
-    # export SSH_PRIVATE_KEY=~/.ssh/id_rsa
-    # export SSH_PUBLIC_KEY=~/.ssh/id_rsa.pub
+    export PROJECT_ROOT_RELATIVE="../../.."
 
-# Only relevant and correctly set for scripts in the setup directory, thus we only set it when run from there, avoiding confusion
-if [ "$(basename $script_path)" == "setup" ]; then
+# Find the absolute path of the project root
 
-    # To use local source-code, set the following environment variable (relative path from the setup directory to the parent repo codebase):
+    export PROJECT_ROOT=$(cd "$PROJECT_ROOT_RELATIVE/";pwd)
 
-        export LOCAL_SOURCE_CODE_RELATIVE="../../../../"
+# Project directory name
 
-    # Find the absolute path of the cms codebase
-
-        export LOCAL_SOURCE_CODE=$(cd "$LOCAL_SOURCE_CODE_RELATIVE";pwd)
-
-fi
+    export PROJECT_ROOT_DIR_NAME=$(dirname $PROJECT_ROOT);
 
 # Restore working directory and exit
 cd $_pwd

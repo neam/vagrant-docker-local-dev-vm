@@ -15,7 +15,7 @@ source $script_path/variables.inc.sh
 
     cd $script_path/../build/$NAME
 
-# Bring up and provision the docker containers for Gapminder CMS:
+# Display credentials
 
     echo "== Use the following database credentials in order to connect from inside the container =="
 
@@ -23,7 +23,7 @@ source $script_path/variables.inc.sh
 
     echo "== Use the following database credentials in order to connect from your work station =="
 
-    ../../vendor/docker-md-plugin/commands mariadb:info $DB_APP | sed 's/172.17.42.1/127.0.0.1/'
+    ../../vendor/docker-md-plugin/commands mariadb:info $DB_APP | sed "s/172.17.42.1/$LOCAL_VM_IP/"
 
 # Restore working directory and exit
 cd $pwd

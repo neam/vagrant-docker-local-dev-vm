@@ -26,7 +26,7 @@ set -x
     docker ps -a | grep '_mailcatcher_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
     docker ps -a | grep '_proxy_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
 
-# Bring up and provision the docker containers for Gapminder CMS:
+# Bring up and provision the docker container:
 
     vagrant up --provider=docker db
     vagrant up --provider=docker web

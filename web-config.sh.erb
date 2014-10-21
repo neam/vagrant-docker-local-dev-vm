@@ -5,7 +5,7 @@ set -x
 # enable extended globbing
 shopt -s extglob
 
-export PROJECT_ROOT=/code/cms
+export PROJECT_ROOT=/code/<%= ENV['PROJECT_ROOT_DIR_NAME'] %>
 
 # run local code if available
 if [ -d "$PROJECT_ROOT" ]; then
@@ -18,13 +18,14 @@ if [ -d "$PROJECT_ROOT" ]; then
 
     # reset environment variables to only contain the following
     echo 'export HOME=/app' > /app/.profile.d/app-env.sh
-    echo 'export PROXY_HOST=127.0.0.1:12121' >> /app/.profile.d/app-env.sh
-    echo 'export WEB_HOST=127.0.0.1:11111' >> /app/.profile.d/app-env.sh
     echo 'export CONFIG_INCLUDE=config/local/include.php' >> /app/.profile.d/app-env.sh
     echo "export PROJECT_ROOT=$PROJECT_ROOT" >> /app/.profile.d/app-env.sh
     echo 'export LOCAL_SERVICES_IP=172.17.42.1' >> /app/.profile.d/app-env.sh
     echo 'export SELENIUM_HOST=$LOCAL_SERVICES_IP' >> /app/.profile.d/app-env.sh
     echo 'export SELENIUM_PORT=14444' >> /app/.profile.d/app-env.sh
+
+    # source local env-variables
+    echo 'source $HOME/.env' >> /app/.profile.d/app-env.sh
 
     # add composer.phar to path ("z-" workaround necessary so that it gets sourced after "config_vars" which resets the PATH)
     echo 'export PATH="$HOME/vendor/composer/bin::$PATH"' > /app/.profile.d/z-composer.sh
