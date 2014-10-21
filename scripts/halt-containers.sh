@@ -24,6 +24,7 @@ set -x
     vagrant halt db
     vagrant halt web
     vagrant halt mailcatcher
+    vagrant halt proxy
 
 # Halt any legacy containers
 

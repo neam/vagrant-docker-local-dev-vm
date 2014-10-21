@@ -79,6 +79,12 @@ exit 0' > /etc/network/if-post-down.d/iptablessave
     # port forward necessary to be able to connect to the mysql server against 127.0.0.1:$DB_PORT locally
     config.vm.network :forwarded_port, guest: <%= ENV['DB_PORT'] %>, host: <%= ENV['DB_PORT'] %>
 
+    # port forward necessary to be able to SSH directly into docker proxy container (for easier more direct ssh connections as compared to proxying through the host vm)
+    # currently-inactivate config.vm.network :forwarded_port, guest: 1022, host: 1022
+
+    # port forward necessary for http://localhost:$PROXY_PORT to work on local machine
+    config.vm.network :forwarded_port, guest: 12121, host: 12121
+
     # port forward for mailcatcher ports
     config.vm.network :forwarded_port, guest: 1025, host: 1025
     config.vm.network :forwarded_port, guest: 1080, host: 1080

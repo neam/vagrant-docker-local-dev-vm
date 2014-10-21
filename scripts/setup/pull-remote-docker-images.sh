@@ -19,6 +19,10 @@ source $script_path/../variables.inc.sh
 
     docker pull $LEMP_DOCKER_IMAGE
 
+# Fetch the latest proxy docker image
+
+    docker pull $PROXY_DOCKER_IMAGE
+
 # Fetch the latest mailcatcher docker image
 
     docker pull $MAILCATCHER_DOCKER_IMAGE

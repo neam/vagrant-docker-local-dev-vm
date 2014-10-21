@@ -24,12 +24,14 @@ set -x
     docker ps -a | grep '_db_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
     docker ps -a | grep '_web_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
     docker ps -a | grep '_mailcatcher_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
+    docker ps -a | grep '_proxy_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
 
 # Bring up and provision the docker containers for Gapminder CMS:
 
     vagrant up --provider=docker db
     vagrant up --provider=docker web
     vagrant up --provider=docker mailcatcher
+    vagrant up --provider=docker proxy & # runs in background to work around https://github.com/mitchellh/vagrant/issues/3951
 
 # Prevent users from thinking that the script is stuck
 
