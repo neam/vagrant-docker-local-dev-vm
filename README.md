@@ -6,20 +6,49 @@ Uses [Vagrant](http://www.vagrantup.com/) to provision [Docker](https://www.dock
 # Features
 
 * Installs docker properly on OSX (Using a host vm through Vagrant's docker provider)
-* Uses only 1 virtual machine but allows installation of as many docker containers that are necessary to set-up services locally (LAMP stack, LEMP stack, MEAN stack, any databases, SMTP, RabbitMQ etc - anything at https://registry.hub.docker.com/ is game)
-* Includes scripts for setting up MariaDB docker container with persistent data
-* Port forwards necessary ports so that docker containers are accessible in the browser
-* Sets up a tcp proxy that enable access to the selenium server running on the developer machine on port 14444 within docker containers (So that acceptance tests can be run from within the containers)
+* Uses only 1 virtual machine per project but allows installation of as many docker containers that are necessary to set-up services locally (LAMP stack, LEMP stack, MEAN stack, any databases, SMTP, RabbitMQ etc - anything at https://registry.hub.docker.com/ is game)
+* Includes scripts for setting up a local MariaDB docker container with persistent data
+* Configured iptables that enable access to the selenium server running on the developer machine on port 14444 within docker containers (So that acceptance tests can be run from within the containers)
+* Pre-configured to run 4 containers: web, db, mailcatcher and proxy
 
 # Requirements
 
 * OSX (Pull requests for Windows and Linux support welcome)
+* A specific project structure (See below)
 
-# Installation
+# Project configuration
+
+Note: The `project root` is the same directory as the vendor directory this extension is installed within.
+
+## Explanation of the default containers
+
+web - Runs the container running your web app(s), using the source code available in `project root`.
+db - Runs a local MariaDB docker container with persistent data
+mailcatcher - Runs a mailcatcher SMTP server
+proxy - Runs a nginx reverse proxy using the configuration found in `project root``/../proxy`.
+
+## Corresponding services in production
+
+web - A PaaS app on Appfog, Heroku, Scalingo, Dokku etc
+db - A cloud database service such as Amazon RDS, Rackspace Cloud DB, ClearDB etc
+mailcatcher - An SMTP service such as Gmail, Amazon Simple Mail Service, Foo etc
+proxy - A reverse proxy or other routing layer on the server(s) that your public DNS is connected to
+
+## Structuring your project to work with the general local dev vm scripts
+
+1. Add this project it as a composer dependency in your `project root`
+2. If your project needs to develop the reverse proxy config locally, make sure that `project root``/../proxy` contains an Nginx-based test-app. A good starting point is GITLINKHERE.
+
+Note: The vagrant configuration will be default make the code in `project root``/..` available to the virtual machine.
+
+# Custom installation
+
+To use these scripts for any other project structure:
 
 1. Fork this repo
 2. Alter the composer metadata to reflect your fork
 3. Add your fork as a submodule or add it as a composer dependency
+4. Alter the scripts to work with your project structure
 
 # Developer machine local set-up
 
