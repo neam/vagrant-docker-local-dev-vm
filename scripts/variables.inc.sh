@@ -31,7 +31,7 @@ fi
 
 # Project directory name
 
-    export PROJECT_ROOT_DIR_NAME=$(dirname $PROJECT_ROOT);
+    export PROJECT_ROOT_DIR_NAME=$(basename $PROJECT_ROOT);
 
 # Restore working directory and exit
 cd $_pwd

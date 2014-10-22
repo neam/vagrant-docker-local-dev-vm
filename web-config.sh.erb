@@ -25,7 +25,7 @@ if [ -d "$PROJECT_ROOT" ]; then
     echo 'export SELENIUM_PORT=14444' >> /app/.profile.d/app-env.sh
 
     # source local env-variables
-    echo 'source $HOME/.env' >> /app/.profile.d/app-env.sh
+    echo 'source $PROJECT_ROOT/.env' >> /app/.profile.d/app-env.sh
 
     # add composer.phar to path ("z-" workaround necessary so that it gets sourced after "config_vars" which resets the PATH)
     echo 'export PATH="$HOME/vendor/composer/bin::$PATH"' > /app/.profile.d/z-composer.sh

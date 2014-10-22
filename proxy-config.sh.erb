@@ -15,7 +15,7 @@ if [ -d "$PROJECT_ROOT" ]; then
     echo 'export LOCAL_SERVICES_IP=172.17.42.1' >> /app/.profile.d/app-env.sh
 
     # source local env-variables
-    echo 'source $HOME/.env' >> /app/.profile.d/app-env.sh
+    echo 'source $PROJECT_ROOT/.env' >> /app/.profile.d/app-env.sh
 
     # necessary file
     cp /app/mime.types /code/proxy/mime.types
