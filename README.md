@@ -41,6 +41,12 @@ proxy - A reverse proxy or other routing layer on the server(s) that your public
 
 Note: The vagrant configuration will be default make the code in `project root``/..` available to the virtual machine.
 
+3. Open up a terminal window and cd into the same directory as this readme file. Then, create a project-specific `.local-dev-vm-env` file:
+
+    cp .local-dev-vm-env.dist ../../../.local-dev-vm-env
+
+4. Commit `.local-dev-vm-env` in your project since it should contain no secrets and will be shared amongst the other developers.
+
 # Custom installation
 
 To use these scripts for any other project structure:
@@ -63,12 +69,6 @@ Install the VirtualBox guest additions plugin:
 Install the docker client for OSX:
 
     brew install docker
-
-Open up a terminal window and cd into the same directory as this readme file.
-
-Create a project-specific `.local-dev-vm-env` file:
-
-    cp .local-dev-vm-env.dist ../../../.local-dev-vm-env
 
 ## Install the docker daemon
 
