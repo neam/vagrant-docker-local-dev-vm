@@ -8,7 +8,6 @@
 
 # Use the following docker images - include tags for version-pinning
 
-    export DB_DOCKER_IMAGE=mariadb/local
     export LEMP_DOCKER_IMAGE=fooproject/web:latest
     export PROXY_DOCKER_IMAGE=fooproject/proxy:latest
     export MAILCATCHER_DOCKER_IMAGE=nisenabe/mailcatcher
