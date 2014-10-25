@@ -36,16 +36,16 @@ proxy - A reverse proxy or other routing layer on the server(s) that your public
 
 ## Structuring your project to work with the general local dev vm scripts
 
-1. Add this project it as a composer dependency in your `project root`
-2. If your project needs to develop the reverse proxy config locally, make sure that `project root``/../proxy` contains an Nginx-based test-app. A good starting point is GITLINKHERE.
+- Add this project it as a composer dependency in your `project root`
+- If your project needs to develop the reverse proxy config locally, make sure that `project root``/../proxy` contains an Nginx-based test-app. A good starting point is GITLINKHERE.
 
 Note: The vagrant configuration will be default make the code in `project root``/..` available to the virtual machine.
 
-3. Open up a terminal window and cd into the same directory as this readme file. Then, create a project-specific `.local-dev-vm-env` file:
+- Open up a terminal window and cd into the same directory as this readme file. Then, create a project-specific `.local-dev-vm-env` file:
 
     cp .local-dev-vm-env.dist ../../../.local-dev-vm-env
 
-4. Commit `.local-dev-vm-env` in your project since it should contain no secrets and will be shared amongst the other developers.
+- Commit `.local-dev-vm-env` in your project since it should contain no secrets and will be shared amongst the other developers.
 
 # Custom installation
 
