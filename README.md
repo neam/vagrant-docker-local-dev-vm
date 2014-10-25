@@ -22,17 +22,17 @@ Note: The `project root` is the same directory as the vendor directory this exte
 
 ## Explanation of the default containers
 
-web - Runs the container running your web app(s), using the source code available in `project root`.
-db - Runs a local MariaDB docker container with persistent data
-mailcatcher - Runs a mailcatcher SMTP server
-proxy - Runs a nginx reverse proxy using the configuration found in `project root``/../proxy`.
+* `web` - Runs the container running your web app(s), using the source code available in `project root`.
+* `db` - Runs a local MariaDB docker container with persistent data
+* `mailcatcher` - Runs a mailcatcher SMTP server
+* `proxy` - Runs a nginx reverse proxy using the configuration found in `project root``/../proxy`.
 
 ## Corresponding services in production
 
-web - A PaaS app on Appfog, Heroku, Scalingo, Dokku etc
-db - A cloud database service such as Amazon RDS, Rackspace Cloud DB, ClearDB etc
-mailcatcher - An SMTP service such as Gmail, Amazon Simple Mail Service, Foo etc
-proxy - A reverse proxy or other routing layer on the server(s) that your public DNS is connected to
+* `web` - A PaaS app on Appfog, Heroku, Scalingo, Dokku etc
+* `db` - A cloud database service such as Amazon RDS, Rackspace Cloud DB, ClearDB etc
+* `mailcatcher` - An SMTP service such as Gmail, Amazon Simple Mail Service, Foo etc
+* `proxy` - A reverse proxy or other routing layer on the server(s) that your public DNS is connected to
 
 ## Structuring your project to work with the general local dev vm scripts
 
