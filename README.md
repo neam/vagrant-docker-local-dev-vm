@@ -60,7 +60,7 @@ To use these scripts for any other project structure:
 
 ## Installation of prerequisites
 
-Install vagrant from [http://www.vagrantup.com/]() (v1.6.3) and VirtualBox from [https://www.virtualbox.org/]().
+Install vagrant from [http://www.vagrantup.com/]() (v1.6.5) and VirtualBox from [https://www.virtualbox.org/]().
 
 Install the VirtualBox guest additions plugin:
 
