@@ -80,8 +80,8 @@ Source the project's `.local-dev-vm-env` file:
 
 Run the following scripts:
 
-    scripts/setup/generate-host-vm-vagrant-config.sh
-    scripts/setup/install-docker-in-host-vm.sh
+    scripts/setup/generate-host-vm-vagrant-config.sh # takes around 1 second
+    scripts/setup/install-docker-in-host-vm.sh # takes 1-3 minutes
 
 (Note: The above command should fail with the error message `Stderr: Unable to find image 'this-image-should/make-vagrant-fail-it-is-ok-and-expected' locally`. This is OK and expected. The non-existing image name was just used temporarily to make vagrant install Docker in the host vm.)
 
@@ -95,7 +95,7 @@ Login to the docker registry (unless you have already done so previously):
 
 Pull the latest docker images (Can not be run by vagrant because it requires login - [https://github.com/mitchellh/vagrant/issues/4042]()):
 
-    scripts/setup/pull-remote-docker-images.sh
+    scripts/setup/pull-remote-docker-images.sh # around 1-2 gb is downloaded by this command
 
 Make sure submodules are initialized:
 
