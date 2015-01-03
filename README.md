@@ -10,6 +10,7 @@ Uses [Vagrant](http://www.vagrantup.com/) to provision [Docker](https://www.dock
 * Includes scripts for setting up a local MariaDB docker container with persistent data
 * Configured iptables that enable access to the selenium server running on the developer machine on port 14444 within docker containers (So that acceptance tests can be run from within the containers)
 * Pre-configured to run 4 containers: web, db, mailcatcher and proxy
+* Installs Xdebug in the web-container upon container start-up
 
 # Requirements
 
@@ -150,6 +151,10 @@ To follow the logs in a specific container, run one of the following:
     scripts/logs.sh proxy
 
 To ssh into the host vm, cd into `host-vm` and run `vagrant ssh`.
+
+## Using Xdebug
+
+Xdebug is installed upon start-up of the "web" container. It is not enabled by default but activates by trigger. Use for instance [the Xdebug helper chrome extension](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc/related?hl=en) to enable Xdebug profiling from the browser.
 
 ## Troubleshooting
 
