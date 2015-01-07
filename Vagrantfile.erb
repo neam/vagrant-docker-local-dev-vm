@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         web.vm.provider :docker do |provider|
             provider.image = "<%= ENV['LEMP_DOCKER_IMAGE'] %>"
-            provider.ports = ["11111:5000", "2201:2201", "9001:9001"]
+            provider.ports = ["11111:5000", "2201:2201", "9000:9000"]
             provider.cmd = ["/bin/bash", "/vagrant/web-start.sh", "web", "2201"]
             provider.volumes = ["/host-vm-code-share:/code"]
             provider.has_ssh = true
