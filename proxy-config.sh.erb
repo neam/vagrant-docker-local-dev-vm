@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -x
+
+# enable extended globbing
+shopt -s extglob
+
+export PROJECT_ROOT=/code/proxy
+
+# run local code if available
+if [ -d "$PROJECT_ROOT" ]; then
+
+    # add environment variable overrides
+    echo 'export HOME=/app' >> /app/.profile.d/app-env.sh
+    echo 'export LOCAL_SERVICES_IP=172.17.42.1' >> /app/.profile.d/app-env.sh
+
+    # source local env-variables
+    echo 'source $PROJECT_ROOT/.env' >> /app/.profile.d/app-env.sh
+
+    # necessary file
+    cp /app/mime.types /code/proxy/mime.types
+
+else
+    echo "WARNING: $PROJECT_ROOT was not available for configuration"
+fi
+

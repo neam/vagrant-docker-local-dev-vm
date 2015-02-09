@@ -1,0 +1,63 @@
+#!/bin/bash
+
+set -x
+
+cd /vagrant
+
+# in order to prevent accidental overwrites of /root contents, we cd into our own directory where we perform the provisioning
+
+if [ ! -d provisioning ]; then
+    mkdir provisioning
+fi
+cd provisioning
+
+# prevent stale apt index
+
+apt-get update
+
+# install useful packages for debugging - htop, nano, psmisc (killall) and mosh
+
+apt-get install -y -q htop nano psmisc mosh
+
+# install and enable xdebug
+
+pecl install xdebug
+echo 'zend_extension=/app/vendor/php/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so' > /app/vendor/php/etc/conf.d/xdebug.ini
+
+mkdir -p /code/tmp/xdebug
+chown nobody /code/tmp/xdebug
+
+echo '
+xdebug.profiler_enable=0
+xdebug.profiler_enable_trigger=1
+xdebug.show_mem_delta=1
+xdebug.profiler_output_dir=/code/tmp/xdebug
+xdebug.profiler_output_name=callgrind.out.sess-%S.ts-%u.script-%s.req-uri-%R.pid-%p
+
+xdebug.trace_format=1
+xdebug.trace_output_dir=/code/tmp/xdebug
+xdebug.trace_output_name=trace.%s.%R.%p.%u
+xdebug.auto_trace=0
+
+
+xdebug.remote_autostart=1
+xdebug.remote_connect_back=1
+xdebug.remote_enable=1
+xdebug.remote_handler=dbgp
+xdebug.remote_mode=req
+xdebug.remote_port=9000
+
+xdebug.show_local_vars=1
+xdebug.auto_trace = 0
+xdebug.extended_info = 1
+xdebug.cli_color = 1
+xdebug.idekey = "XDEBUG"
+xdebug.scream = 0
+' >> /app/vendor/php/etc/conf.d/xdebug.ini
+
+# reload config for php-fpm
+kill -USR2 $(ps aux | grep 'php-fpm: master process' | grep -v grep | awk '{ print $2 }')
+
+# done
+
+cd /vagrant

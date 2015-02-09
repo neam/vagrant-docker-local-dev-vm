@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -x
+
+CONTAINER=$1
+SSH_PORT=$2
+
+cd /vagrant
+
+# install and start ssh server in background (enables vagrant ssh)
+
+/bin/bash docker-container-ssh.sh $SSH_PORT
+
+# cms web-container specific provisioning
+
+/bin/bash $CONTAINER-config.sh
+
+# provisioning done, start cms app
+
+# from: /bin/bash -c /start
+export HOME=/app
+for file in /app/.profile.d/*; do source $file; done
+hash -r
+cd /app
+
+# enable debug output from bin/run
+echo "set -x" > /tmp/run
+cat bin/run >> /tmp/run
+mv /tmp/run bin/run
+
+/bin/bash bin/run

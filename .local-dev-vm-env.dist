@@ -1,0 +1,35 @@
+# Choose a project-specific ID between 2 and 255. This will determine which IP address the vm will run on.
+# Note: Below, `55` has been used as an example. To be able to use the local-dev-vm scripts with multiple projects
+# they need to use different IDs.
+
+    export LOCAL_VM_ID=55 #changeme
+    export LOCAL_VM_IP=192.168.$LOCAL_VM_ID.100
+    export DOCKER_HOST=tcp://$LOCAL_VM_IP:4243
+
+# Use the following docker images - include tags for version-pinning
+
+    export LEMP_DOCKER_IMAGE=fooproject/web:latest
+    export PROXY_DOCKER_IMAGE=fooproject/proxy:latest
+    export MAILCATCHER_DOCKER_IMAGE=nisenabe/mailcatcher
+
+# Used by docker-md-plugin to set-up a db container for our app (named and with a certain port)
+
+    export DB_APP=web
+    export DB_PORT=13306
+
+# Choose a provider depending on where to provision the docker host:
+
+    export HOST_VM_PROVIDER=virtualbox
+    # todo:
+    # export HOST_VM_PROVIDER=digital-ocean
+    # export HOST_VM_PROVIDER=aws
+
+# Choose a ssh key for vagrant to use, relative to the vagrant configuration build folder (note that automatic provisioning will not work when using passphrase-protected keys):
+# Note: "insecure_key" will be downloaded automatically
+
+    export SSH_PRIVATE_KEY=insecure_key
+    export SSH_PUBLIC_KEY=insecure_key.pub
+    # OR
+    # export SSH_PRIVATE_KEY=~/.ssh/id_rsa
+    # export SSH_PUBLIC_KEY=~/.ssh/id_rsa.pub
+

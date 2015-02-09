@@ -1,0 +1,87 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+    # base box for virtualbox/vmware
+    config.vm.box = "ubuntu/trusty64"
+
+    # set memory to 2gb since the default of 0.5gb is too little
+    config.vm.provider :virtualbox do |v|
+        v.memory = 2048
+    end
+
+    # set up a secondary network adapter for accessing services running on the developer's machine
+    config.vm.network :private_network, ip: "192.168.<%= ENV['LOCAL_VM_ID'] %>.100", :adapter => 2
+
+    # using the Docker provisioner will automatically install Docker
+    config.vm.provision "docker"
+
+    # Enable Docker daemon listen on TCP :4243
+    config.vm.provision :shell, inline: <<-EOF
+        service ssh restart
+
+        echo "Enable Docker daemon listen on TCP :4243" >&2
+        echo 'DOCKER_OPTS="-H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"' >> /etc/default/docker
+        echo 'DOCKER_OPTS="-D ${DOCKER_OPTS}"' >> /etc/default/docker
+
+        service docker restart
+    EOF
+    config.vm.provision "shell", inline: "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
+
+    # set up a tcp proxy that enable access to selenium server on developer machine on port 14444 within docker containers
+    config.vm.provision :shell, inline: <<-EOF
+        set -x
+        PORT=14444
+
+        # tcp proxy through iptables from http://www.debian-administration.org/article/595/Need_a_generic_iptables_tcp_proxy
+        CONTAINER_EXPOSED_IP=172.17.42.1
+        CONTAINER_EXPOSED_PORT=$PORT
+        HOST_VM_EXPOSED_IP=192.168.<%= ENV['LOCAL_VM_ID'] %>.1
+        HOST_VM_EXPOSED_PORT=4444
+
+        iptables -t nat -A PREROUTING --dst $CONTAINER_EXPOSED_IP -p tcp --dport $CONTAINER_EXPOSED_PORT -j DNAT \
+        --to-destination $HOST_VM_EXPOSED_IP:$HOST_VM_EXPOSED_PORT
+        iptables -t nat -A POSTROUTING -p tcp --dst $HOST_VM_EXPOSED_IP --dport $HOST_VM_EXPOSED_PORT -j SNAT \
+        --to-source $CONTAINER_EXPOSED_IP
+        iptables -t nat -A OUTPUT --dst $CONTAINER_EXPOSED_IP -p tcp --dport $CONTAINER_EXPOSED_PORT -j DNAT \
+        --to-destination $HOST_VM_EXPOSED_IP:$HOST_VM_EXPOSED_PORT
+
+        # make the tcp-proxy available after reboot
+        echo '#!/bin/sh
+iptables-restore < /etc/iptables.rules
+exit 0' > /etc/network/if-pre-up.d/iptablesload
+
+        echo '#!/bin/sh
+iptables-save > /etc/iptables.rules
+if [ -f /etc/iptables.downrules ]; then
+   iptables-restore < /etc/iptables.downrules
+fi
+exit 0' > /etc/network/if-post-down.d/iptablessave
+
+        sudo chmod +x /etc/network/if-post-down.d/iptablessave
+        sudo chmod +x /etc/network/if-pre-up.d/iptablesload
+
+        echo "Enabled access to selenium server on developer machine on port $PORT within docker containers" >&2
+    EOF
+
+    #<% if ENV.has_key? "PROJECT_ROOT" and ENV['PROJECT_ROOT'].to_s != "" %>
+    config.vm.synced_folder "<%= ENV['PROJECT_ROOT'] %>/..", "/host-vm-code-share",
+      :owner => "nobody",
+      :group => "nobody"
+    #<% end %>
+
+#        web.vm.provider :digital_ocean do |provider|
+#            provider.client_id = "<%= ENV['DIGITAL_OCEAN_CLIENT_ID'] %>"
+#            provider.api_key = "<%= ENV['DIGITAL_OCEAN_API_KEY'] %>"
+#            provider.image = "Dokku v0.2.3 on Ubuntu 14.04"
+#            provider.private_networking = true
+#            provider.backups_enabled = true
+#            provider.region = "<%= ENV['DIGITAL_OCEAN_REGION'] %>"
+#            provider.size = "<%= ENV['SIZE'] %>"
+#        end
+#
+#        # sets the name of the droplet
+#        web.vm.define "<%= ENV['HOSTNAME'] %>" do |t|
+#        end
+
+end

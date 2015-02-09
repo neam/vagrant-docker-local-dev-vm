@@ -1,0 +1,17 @@
+#!/bin/bash
+
+SSH_PORT=$1
+
+apt-get update
+apt-get install ssh
+mkdir /var/run/sshd
+chmod 0755 /var/run/sshd
+cat /etc/ssh/sshd_config
+echo 'AuthorizedKeysFile    /etc/ssh/%u/authorized_keys' >> /etc/ssh/sshd_config
+mkdir /etc/ssh/root/
+echo '<%= ENV['SSH_PUBLIC_KEY_CONTENTS'] %>' >> /etc/ssh/root/authorized_keys
+
+/usr/sbin/sshd -p 22 # -D -d &
+/usr/sbin/sshd -p $SSH_PORT # -D -d &
+
+exit 0

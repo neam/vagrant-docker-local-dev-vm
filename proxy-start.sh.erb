@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -x
+
+cd /vagrant
+
+# install and start ssh server in background (enables vagrant ssh)
+
+# /bin/bash docker-container-ssh.sh 1022
+
+# proxy-container specific provisioning
+
+/bin/bash proxy-config.sh
+
+# provisioning done, start cms app
+
+# from: /bin/bash -c /start
+export HOME=/app
+for file in /app/.profile.d/*; do source $file; done
+hash -r
+
+if [ -d "/code/proxy" ]; then
+    DIR="/code/proxy"
+else
+    echo "WARNING: /code/proxy was not available, thus running the container from /app, replicating the original docker image set-up and not the local dev set-up"
+    DIR="/app"
+fi
+
+cd $DIR
+
+/bin/bash run.sh
