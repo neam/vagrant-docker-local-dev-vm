@@ -9,7 +9,8 @@ Uses [Vagrant](http://www.vagrantup.com/) to provision [Docker](https://www.dock
 * Uses only 1 virtual machine per project but allows installation of as many docker containers that are necessary to set-up services locally (LAMP stack, LEMP stack, MEAN stack, any databases, SMTP, RabbitMQ etc - anything at https://registry.hub.docker.com/ is game)
 * Includes scripts for setting up a local MariaDB docker container with persistent data
 * Configured iptables that enable access to the selenium server running on the developer machine on port 14444 within docker containers (So that acceptance tests can be run from within the containers)
-* Pre-configured to run 4 containers: web, db, mailcatcher and proxy
+* Pre-configured to run 4 types of containers: web, db, mailcatcher and proxy
+* Multiple web containers can be configured to launch in parallell, so that multiple DATA profiles can be available at the same time
 * Installs Xdebug in the web-container upon container start-up
 
 # Requirements
@@ -77,7 +78,9 @@ Open up a terminal window and cd into the same directory as this readme file.
 
 Source the project's `.local-dev-vm-env` file:
 
-    source ../../../.local-dev-vm-env
+    cd ../../../
+    source .local-dev-vm-env
+    cd -
 
 Run the following scripts:
 

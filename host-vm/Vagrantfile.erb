@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     # set up a secondary network adapter for accessing services running on the developer's machine
-    config.vm.network :private_network, ip: "192.168.<%= ENV['LOCAL_VM_ID'] %>.100", :adapter => 2
+    config.vm.network :private_network, ip: "<%= ENV['LOCAL_VM_NETWORK'] %>.100", :adapter => 2
 
     # using the Docker provisioner will automatically install Docker
     config.vm.provision "docker"
@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # tcp proxy through iptables from http://www.debian-administration.org/article/595/Need_a_generic_iptables_tcp_proxy
         CONTAINER_EXPOSED_IP=172.17.42.1
         CONTAINER_EXPOSED_PORT=$PORT
-        HOST_VM_EXPOSED_IP=192.168.<%= ENV['LOCAL_VM_ID'] %>.1
+        HOST_VM_EXPOSED_IP=<%= ENV['LOCAL_VM_NETWORK'] %>.1
         HOST_VM_EXPOSED_PORT=4444
 
         iptables -t nat -A PREROUTING --dst $CONTAINER_EXPOSED_IP -p tcp --dport $CONTAINER_EXPOSED_PORT -j DNAT \

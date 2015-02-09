@@ -14,7 +14,12 @@ source $script_path/variables.inc.sh
 # Get arguments
 
 if [ "$1" == "" ]; then
-    MACHINE=web
+    if [ "$DATA" == "" ]; then
+        echo 'When ssh.sh is invoked without a parameter, it will default to "web-$DATA" but $DATA is empty'
+        exit 1
+    else
+        MACHINE=web-$DATA
+    fi
 else
     MACHINE=$1
 fi

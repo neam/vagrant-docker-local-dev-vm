@@ -21,14 +21,7 @@ set -x
 
 # Halt any running containers
 
-    vagrant halt db
-    vagrant halt web
-    vagrant halt mailcatcher
-    vagrant halt proxy
-
-# Halt any legacy containers
-
-    vagrant halt web # TODO: Remove after no-one is using this configuration
+    vagrant halt
 
 # Restore working directory and exit
 cd $pwd

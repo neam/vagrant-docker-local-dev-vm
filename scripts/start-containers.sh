@@ -22,16 +22,13 @@ set -x
 # Remove any containers that failed to start (if they are not removed, vagrant won't attempt to start a new working container)
 
     docker ps -a | grep '_db_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
-    docker ps -a | grep '_web_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
+    docker ps -a | grep '_web' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
     docker ps -a | grep '_mailcatcher_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
     docker ps -a | grep '_proxy_' | grep 'Exited' | awk '{ print $1 }' | xargs docker rm -f
 
 # Bring up and provision the docker container:
 
-    vagrant up --provider=docker db
-    vagrant up --provider=docker web
-    vagrant up --provider=docker mailcatcher
-    vagrant up --provider=docker proxy & # runs in background to work around https://github.com/mitchellh/vagrant/issues/3951
+    vagrant up --provider=docker
 
 # Prevent users from thinking that the script is stuck
 

@@ -34,12 +34,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     end
 
-    config.vm.define "web" do |web|
+    <% require 'rubygems' %>
+    <% require 'json' %>
+    <% JSON.parse(ENV['LOCAL_VM_WEB_CONTAINERS']).each do |webcontainer| %>
+
+    config.vm.define "web-<%= webcontainer['data'] %>" do |web|
 
         web.vm.provider :docker do |provider|
             provider.image = "<%= ENV['LEMP_DOCKER_IMAGE'] %>"
-            provider.ports = ["11111:5000", "2201:2201", "9000:9000"]
-            provider.cmd = ["/bin/bash", "/vagrant/web-start.sh", "web", "2201"]
+            provider.ports = ["<%= webcontainer['ports']['http'] %>:5000", "<%= webcontainer['ports']['ssh'] %>:<%= webcontainer['ports']['ssh'] %>", "<%= webcontainer['ports']['xdebug'] %>:9000"]
+            provider.cmd = ["/bin/bash", "/vagrant/web-start.sh", "web", "<%= webcontainer['ports']['ssh'] %>", "<%= webcontainer['data'] %>"]
             provider.volumes = ["/host-vm-code-share:/code"]
             provider.has_ssh = true
         end
@@ -47,8 +51,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # since the image doesn't have a vagrant user
         web.ssh.username = 'root'
 
-        # docker-container-ssh.sh starts an additional ssh server on port 2201 to avoid conflicts and confusion with ports 22 and 2222 which are reserved for the host-vm
-        web.ssh.port = 2201
+        # docker-container-ssh.sh starts an additional ssh server on port <%= webcontainer['ports']['ssh'] %> to avoid conflicts and confusion with ports 22 and 2222 which are reserved for the host-vm
+        web.ssh.port = <%= webcontainer['ports']['ssh'] %>
 
         # cms web-instance provisioning is not done through vagrant's ssh provisioning mechanism since
         # the docker container is expected to be provisioned before (or at the latest in the process of) being started
@@ -56,6 +60,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # web.vm.provision "shell", :path => "{web}-config.sh"
 
     end
+
+    <% end %>
 
     config.vm.define "mailcatcher" do |mailcatcher|
 
