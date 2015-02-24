@@ -16,6 +16,7 @@ Uses [Vagrant](http://www.vagrantup.com/) to provision [Docker](https://www.dock
 # Requirements
 
 * OSX (Pull requests for Windows and Linux support welcome)
+* Docker images built by Dokku
 * A specific project structure (See below)
 
 # Project configuration
