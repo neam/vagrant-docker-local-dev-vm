@@ -1,6 +1,12 @@
 Vagrant Docker Local Dev VM
 -----------------------------
 
+## Deprecated
+
+Note: This project was created to be able to use Docker pre 1.2.0 in the local development workflows. Since Docker 1.5.0, all the limitations of Docker that originally required Vagrant and shell-script-based workaround has been addressed, and this project has now been superseeded by [https://github.com/neam/docker-stack](https://github.com/neam/docker-stack) which includes all of this project's features but with much quicker first time set-up and maintenance.
+
+## Original Readme
+
 Uses [Vagrant](http://www.vagrantup.com/) to provision [Docker](https://www.docker.com/) containers for local development purposes.
 
 # Features
