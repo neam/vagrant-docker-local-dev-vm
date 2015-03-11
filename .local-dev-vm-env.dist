@@ -1,11 +1,9 @@
-# Fetch configuration from composer.json, or resort to defaults (network address 192.168.55.0 with a single web container for DATA=clean-db on port 11111) if not available
+# Choose a project-specific ID between 2 and 255. This will determine which IP address the vm will run on.
+# Note: Below, `55` has been used as an example. To be able to use the local-dev-vm scripts with multiple projects
+# they need to use different IDs.
 
-    export LOCAL_VM_NETWORK_ADDRESS="$(jq --raw-output '.extra["vagrant-docker-local-dev-vm"]["network-address"] // "192.168.55.0"' < composer.json)"
-    export LOCAL_VM_WEB_CONTAINERS="$(jq --raw-output '.extra["vagrant-docker-local-dev-vm"]["web-containers"] // [{"data":"clean-db","port":"11111"}]' < composer.json)"
-
-# Derived settings
-
-    export LOCAL_VM_IP=${LOCAL_VM_NETWORK_ADDRESS%.0}.100
+    export LOCAL_VM_ID=55 #changeme
+    export LOCAL_VM_IP=192.168.$LOCAL_VM_ID.100
     export DOCKER_HOST=tcp://$LOCAL_VM_IP:4243
 
 # Use the following docker images - include tags for version-pinning

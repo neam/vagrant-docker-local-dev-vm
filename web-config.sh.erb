@@ -27,20 +27,12 @@ if [ -d "$PROJECT_ROOT" ]; then
     # source local env-variables
     echo 'source $PROJECT_ROOT/.env' >> /app/.profile.d/app-env.sh
 
-    # store DATA profile at time of provisioning
-    echo "export DATA=$DATA" >> /app/.profile.d/data-profile.sh
-
     # add composer.phar to path ("z-" workaround necessary so that it gets sourced after "config_vars" which resets the PATH)
     echo 'export PATH="$HOME/vendor/composer/bin::$PATH"' > /app/.profile.d/z-composer.sh
 
     # get root user connecting via ssh to a productive prompt immediately
     echo 'source /exec' >> /root/.profile # make all environment variables available
     echo "cd $PROJECT_ROOT" >> /root/.profile # step in to the root of the cms component codebase
-
-else
-
-    echo "Project root '$PROJECT_ROOT' was not available, local vm provisioning can not continue"
-    exit 1
 
 fi
 
